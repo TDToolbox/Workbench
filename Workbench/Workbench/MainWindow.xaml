@@ -14,7 +14,38 @@
         xmlns:local="clr-namespace:Workbench"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    
+    <!-- This is what a comment looks like-->
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox x:Name="Combobox_Testing" Grid.Column="3">
+                <Button x:Name="TestWindow_Button" Grid.Column="3" Content="Open Test Window" FontSize="12" Click="TestWindow_Button_Click"/>
+                <Button x:Name="Gurren_Button" Grid.Column="3" Content="Open Gurren Test Window" FontSize="12" Click="GurrenTest_Button_Click"/>
+                <Button x:Name="Mallis_Button" Grid.Column="3" Content="Open Mallis Test Window" FontSize="12" Click="MallisTesting_Button_Click"/>
+            </ComboBox>
+        </Grid>
+
     </Grid>
 </Window>
