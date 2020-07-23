@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using BTD_Backend;
 
 namespace Workbench
 {
@@ -10,21 +12,34 @@ namespace Workbench
         public MainWindow()
         {
             InitializeComponent();
+            Log.Instance.MessageLogged += MainWindow_MessageLogged;
+            
+
+            Log.Output("Welcome to BTD Workbench");
+        }
+
+        private void MainWindow_MessageLogged(object sender, Log.LogEvents e)
+        {
+            ConsoleLog.AppendText(e.Message);
+            ConsoleLog.ScrollToEnd();
         }
 
         private void TestWindow_Button_Click(object sender, RoutedEventArgs e)
         {
+            Log.Output("Opening test window"); ;
             TestingWindow testingWindow = new TestingWindow();
             testingWindow.Show();
         }
 
         private void MallisTesting_Button_Click(object sender, RoutedEventArgs e)
         {
+            Log.Output("Opening Mallis test window");
             MallisTesting mallis = new MallisTesting();
             mallis.Show();
         }
         private void GurrenTest_Button_Click(object sender, RoutedEventArgs e)
         {
+            Log.Output("Opening Gurren test window");
             GurrenTesting gurren = new GurrenTesting();
             gurren.Show();
         }
