@@ -46,6 +46,5 @@
                 <Button x:Name="Mallis_Button" Grid.Column="3" Content="Open Mallis Test Window" FontSize="12" Click="MallisTesting_Button_Click"/>
             </ComboBox>
         </Grid>
-
     </Grid>
 </Window>
