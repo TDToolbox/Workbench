@@ -71,7 +71,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <RichTextBox x:Name="ConsoleLog" Grid.Row="2" Background="#FF7E7E7E" BorderThickness="1" IsReadOnly="False" FontFamily="Consolas" FontSize="16" BorderBrush="#89FFFFFF" Grid.ColumnSpan="2"/>
+            <RichTextBox x:Name="ConsoleLog" Grid.Row="2" Background="#FF7E7E7E" BorderThickness="1" IsReadOnly="True" FontFamily="Consolas" FontSize="16" BorderBrush="#89FFFFFF" Grid.ColumnSpan="2"/>
         </Grid>
     </Grid>
 </Window>
