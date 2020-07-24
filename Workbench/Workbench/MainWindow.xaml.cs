@@ -10,16 +10,6 @@ namespace Workbench
     /// </summary>
     public partial class MainWindow : Window
     {
-        [DllImport("kernel32.dll")]
-        static extern IntPtr GetConsoleWindow();
-
-        [DllImport("user32.dll")]
-        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        const int SW_HIDE = 0;
-        const int SW_SHOW = 5;
-
-
         public MainWindow()
         {
             InitializeComponent();
@@ -30,7 +20,7 @@ namespace Workbench
             Console.WriteLine("DEBUG");
 #else
             Console.WriteLine("RELEASE");
-            ShowWindow(GetConsoleWindow(), SW_HIDE);
+            Win32.ShowWindow(Win32.GetConsoleWindow(), Win32.SW_HIDE);
 #endif
         }
 

@@ -82,6 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Win32.cs" />
     <Compile Include="Windows\GurrenTesting.xaml.cs">
       <DependentUpon>GurrenTesting.xaml</DependentUpon>
     </Compile>
