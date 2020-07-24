@@ -12,25 +12,51 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Workbench" 
-        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz" 
+        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
         Title="MallisTesting" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <DockPanel Grid.Column="0"></DockPanel>
-        <dragablz:TabablzControl Margin="8" Grid.Column="1" Grid.ColumnSpan="2">
-            <dragablz:TabablzControl.InterTabController>
-                <dragablz:InterTabController />
-            </dragablz:TabablzControl.InterTabController>
-            <TabItem Header="Tab No. 1" IsSelected="True">
-                <TextBlock>Hello World</TextBlock>
-            </TabItem>
-            <TabItem Header="Tab No. 2">
-                <TextBlock>We Have Tearable Tabs!</TextBlock>
-            </TabItem>
-        </dragablz:TabablzControl>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <!-- Menu Bar -->
+        <Menu Width="Auto" Grid.Column="0" Grid.Row="0">
+            <MenuItem Header="File">
+                <MenuItem x:Name="AppExit" Header="Exit" HorizontalAlignment="Left" Width="auto"/>
+            </MenuItem>
+            <MenuItem Header="Tools">
+                <MenuItem x:Name="Options" Header="Options" HorizontalAlignment="Left" Width="auto"/>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem x:Name="About" Header="About" HorizontalAlignment="Left" Width="auto"/>
+            </MenuItem>
+        </Menu>
+        <!-- Mod view -->
+        <GroupBox Grid.Column="0" Grid.Row="1" Header="Mod Files">
+            <ScrollViewer>
+                <TreeView>
+                    <TreeViewItem Header="Mod">
+                        <TreeViewItem Header="meta.json"/>
+                    </TreeViewItem>
+                </TreeView>
+            </ScrollViewer>
+        </GroupBox>
+        <!-- Jet view -->
+        <GroupBox Grid.Column="0" Grid.Row="2" Header="Jet Files" Height="Auto" Margin="0" >
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <TreeView Grid.Column="0" Grid.Row="2">
+                    <TreeViewItem Header="Jet" Expanded="TreeViewItem_Expanded">
+                        <Label Content="Test"/>
+                    </TreeViewItem>
+                </TreeView>
+            </ScrollViewer>
+        </GroupBox>
     </Grid>
 </Window>
