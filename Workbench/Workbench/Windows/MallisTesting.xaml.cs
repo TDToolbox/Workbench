@@ -36,23 +36,7 @@ namespace Workbench
 
         private void MallisTestingWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            BgThread.AddToQueue(() =>
-            {
-                Zip zip = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
-                var list = zip.GetFilesInZip();
-
-                int i = 0;
-                foreach (var item in list)
-                {
-                    TreeViewItem treeItem = new TreeViewItem();
-                    treeItem.Header = item;
-                    addTreeDel.Invoke(treeItem);
-                    /*Instance.JetTreeView.Items.Dispatcher.Invoke((Action)(() =>
-                    {
-                        Instance.JetTreeView.Items.Add(treeItem);
-                    }));*/
-                }
-            }, System.Threading.ApartmentState.STA);
+            
         }
 
 

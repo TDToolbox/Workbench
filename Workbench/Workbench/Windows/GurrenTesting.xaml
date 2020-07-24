@@ -21,6 +21,6 @@
         <Button Content="Update NKHook" HorizontalAlignment="Left" Margin="555,136,0,0" VerticalAlignment="Top" Width="194" Click="UpdateNKhButton_Click"/>
         <Button Content="Get Save Dir" HorizontalAlignment="Left" Margin="555,173,0,0" VerticalAlignment="Top" Width="194" Click="GetSaveDirButton_Click"/>
         <Button Content="Try get pass" HorizontalAlignment="Left" Margin="555,219,0,0" VerticalAlignment="Top" Width="194" Click="GetFilesInJetButton_Click"/>
-        <TreeView x:Name="FileTreeView" HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="212" Background="#FF858585"/>
+        <TreeView x:Name="FileTreeView" HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="291" Background="#FF858585"/>
     </Grid>
 </Window>
