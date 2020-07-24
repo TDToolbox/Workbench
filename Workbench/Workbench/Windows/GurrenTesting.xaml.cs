@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Reflection;
+using System.Windows.Controls;
 
 namespace Workbench
 {
@@ -23,10 +24,13 @@ namespace Workbench
             InitializeComponent();
 
             
-            BTD_Backend.IO.Zip zip = new BTD_Backend.IO.Zip(Environment.CurrentDirectory + "\\BTD5.jet");
-            foreach (var file in zip.Archive.Entries)
+            Zip zip = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
+            var files = zip.GetFilesInZip("TowerDefinitions");
+            foreach (var item in files)
             {
-                list.Add(file.FileName);
+                TreeViewItem t = new TreeViewItem();
+                t.Header = item;
+                FileTreeView.Items.Add(t);
             }
         }
 
