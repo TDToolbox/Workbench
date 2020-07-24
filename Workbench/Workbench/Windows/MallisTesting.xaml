@@ -48,15 +48,15 @@
             <Button Grid.Column="2" Background="Red" Click="Button_Click" Height="16" BorderThickness="0" BorderBrush="Red"/>
         </Grid>
         <!-- Menu Bar -->
-        <Menu Width="Auto" Grid.Column="0" Grid.Row="1" Name="FileEditMenu">
-            <MenuItem Header="File">
-                <MenuItem x:Name="AppExit" Header="Exit" HorizontalAlignment="Left" Width="auto"/>
+        <Menu Width="Auto" Grid.Column="0" Grid.Row="1" Name="FileEditMenu" Height="25">
+            <MenuItem Header="File" Height="25">
+                <MenuItem x:Name="AppExit" Header="Exit" HorizontalAlignment="Left" Width="auto" Height="25"/>
             </MenuItem>
-            <MenuItem Header="Tools">
-                <MenuItem x:Name="Options" Header="Options" HorizontalAlignment="Left" Width="auto"/>
+            <MenuItem Header="Tools" Height="25">
+                <MenuItem x:Name="Options" Header="Options" HorizontalAlignment="Left" Width="auto" Height="25"/>
             </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem x:Name="About" Header="About" HorizontalAlignment="Left" Width="auto"/>
+            <MenuItem Header="Help" Height="25">
+                <MenuItem x:Name="About" Header="About" HorizontalAlignment="Left" Width="auto" Height="25"/>
             </MenuItem>
         </Menu>
         <!-- Mod view -->
