@@ -36,5 +36,22 @@ namespace Workbench
             newItem.Items.Add(l);
             source.Items.Add(newItem);
         }
+
+        private void MallisTestingWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            //Subtracting 175 from ActualHeight to get the Height minus the UI elements above Jetfiles
+            //JetFiles.Height = MallisTestingWindow.ActualHeight - 175;
+            JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight -88;
+        }
+
+        private void ModTreeViewItem_Expanded(object sender, RoutedEventArgs e)
+        {
+            JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight - 88 - ModTreeViewItem.ActualHeight;
+        }
+
+        private void ModTreeViewItem_Collapsed(object sender, RoutedEventArgs e)
+        {
+            JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight - ModTreeViewItem.ActualHeight;
+        }
     }
 }
