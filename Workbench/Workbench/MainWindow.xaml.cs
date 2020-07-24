@@ -13,15 +13,16 @@ namespace Workbench
         {
             InitializeComponent();
             Log.Instance.MessageLogged += MainWindow_MessageLogged;
-            
-
             Log.Output("Welcome to BTD Workbench");
         }
 
         private void MainWindow_MessageLogged(object sender, Log.LogEvents e)
         {
-            ConsoleLog.AppendText(e.Message);
-            ConsoleLog.ScrollToEnd();
+            ConsoleLog.Dispatcher.BeginInvoke((Action)(() =>
+            {
+                ConsoleLog.AppendText(e.Message);
+                ConsoleLog.ScrollToEnd();
+            }));
         }
 
         private void TestWindow_Button_Click(object sender, RoutedEventArgs e)
