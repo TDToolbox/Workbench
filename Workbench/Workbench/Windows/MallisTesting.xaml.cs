@@ -60,7 +60,7 @@ namespace Workbench
         public static AddTreeItemDel addTreeDel;
         public void AddTreeItem(TreeViewItem item)
         {
-            Instance.JetTreeView.Items.Add(item);
+            //Instance.JetTreeView.Items.Add(item);
             /*Instance.JetTreeView.Dispatcher.BeginInvoke((Action)(() =>
              {
                  
@@ -82,23 +82,23 @@ namespace Workbench
         {
             //Subtracting 175 from ActualHeight to get the Height minus the UI elements above Jetfiles
             //JetFiles.Height = MallisTestingWindow.ActualHeight - 175;
-            JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight -88;
+            //JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight -88;
         }
 
         private void ModTreeViewItem_Expanded(object sender, RoutedEventArgs e)
         {
-            JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight - 88 - ModTreeViewItem.ActualHeight;
+            //JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight - 88 - ModTreeViewItem.ActualHeight;
         }
 
         private void ModTreeViewItem_Collapsed(object sender, RoutedEventArgs e)
         {
-            JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight - ModTreeViewItem.ActualHeight;
+            //JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight - ModTreeViewItem.ActualHeight;
 	    }
 		
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
             double fileEditHeight = FileEditMenu.ActualHeight;
-            double availableSpace = MallisTestWindow.ActualHeight - fileEditHeight;
+            double availableSpace = MallisTestingWindow.ActualHeight - fileEditHeight;
             FileViewGrid.MaxHeight = availableSpace;
             GroupBox modView = (GroupBox)FileViewGrid.Children[0];
             GroupBox jetView = (GroupBox)FileViewGrid.Children[1];
