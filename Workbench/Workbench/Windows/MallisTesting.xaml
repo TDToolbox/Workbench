@@ -19,7 +19,7 @@
         Loaded="MallisTestingWindow_Loaded" 
         MouseMove="Window_MouseMove"
         BorderBrush="AliceBlue"
-        BorderThickness="2"
+        BorderThickness="0"
         WindowStyle="None">
 
     <Grid x:Name="MainGrid">
@@ -35,7 +35,7 @@
         </Grid.RowDefinitions>
         
         <!-- TitleBar -->
-        <Grid x:Name="TitleGrid" Grid.ColumnSpan="2" MouseLeftButtonDown="TitleGrid_MouseLeftButtonDown" MouseLeftButtonUp="TitleGrid_MouseLeftButtonUp" MouseMove="TitleGrid_MouseMove">
+        <Grid x:Name="TitleGrid" Grid.ColumnSpan="2" MouseLeftButtonDown="TitleGrid_MouseLeftButtonDown" MouseLeftButtonUp="TitleGrid_MouseLeftButtonUp" Background="#222222" MaxHeight="20" Height="20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
@@ -44,8 +44,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Label Content="Mallis Testing" Grid.ColumnSpan="2" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Button Grid.Column="2" Background="Red">X</Button>
+            <Label Content="Mallis Testing" Grid.ColumnSpan="2" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Grid.Column="2" Background="Red" Click="Button_Click" Height="16" BorderThickness="0" BorderBrush="Red"/>
         </Grid>
         <!-- Menu Bar -->
         <Menu Width="Auto" Grid.Column="0" Grid.Row="1" Name="FileEditMenu">
