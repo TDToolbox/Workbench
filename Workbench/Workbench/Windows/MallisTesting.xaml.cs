@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,6 +37,36 @@ namespace Workbench
 
         private void MallisTestingWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            Thread refresher = new Thread(()=>
+            {
+                while (true)
+                {
+                    Instance.Dispatcher.Invoke((Action)delegate
+                    {
+                        /*double fileEditHeight = FileEditMenu.ActualHeight;
+                        Point winLoc = Instance.PointToScreen(new Point(0, 0));
+                        Point mainGridLoc = Instance.PointToScreen(MainGrid.po);
+                        double titlebarSize = winLoc.Y - Instance.RenderSize.;
+                        Log.Output(titlebarSize + "");
+                        double availableSpace = MallisTestingWindow.ActualHeight - (fileEditHeight + titlebarSize);
+
+                        if (availableSpace > 0)
+                        {
+                            FileViewGrid.MaxHeight = availableSpace;
+                            GroupBox modView = (GroupBox)FileViewGrid.Children[1];
+                            GroupBox jetView = (GroupBox)FileViewGrid.Children[2];
+                            double jvHeight = availableSpace - modView.ActualHeight;
+                            if (jvHeight > 0)
+                            {
+                                jetView.Height = jvHeight;
+                            }
+                        }*/
+                    });
+                    
+                    Thread.Sleep(100);
+                }
+            });
+            refresher.Start();
             BgThread.AddToQueue(() =>
             {
                 Zip zip = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
@@ -60,7 +91,7 @@ namespace Workbench
         public static AddTreeItemDel addTreeDel;
         public void AddTreeItem(TreeViewItem item)
         {
-            Instance.JetTreeView.Items.Add(item);
+            //Instance.JetTreeView.Items.Add(item);
             /*Instance.JetTreeView.Dispatcher.BeginInvoke((Action)(() =>
              {
                  
@@ -78,7 +109,7 @@ namespace Workbench
             source.Items.Add(newItem);
         }
 
-        private void MallisTestingWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        /*private void MallisTestingWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             //Subtracting 175 from ActualHeight to get the Height minus the UI elements above Jetfiles
             //JetFiles.Height = MallisTestingWindow.ActualHeight - 175;
@@ -93,16 +124,26 @@ namespace Workbench
         private void ModTreeViewItem_Collapsed(object sender, RoutedEventArgs e)
         {
             JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight - ModTreeViewItem.ActualHeight;
-	    }
+	    }*/
 		
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
-            double fileEditHeight = FileEditMenu.ActualHeight;
-            double availableSpace = MallisTestWindow.ActualHeight - fileEditHeight;
-            FileViewGrid.MaxHeight = availableSpace;
-            GroupBox modView = (GroupBox)FileViewGrid.Children[0];
-            GroupBox jetView = (GroupBox)FileViewGrid.Children[1];
-            Log.Output(FileViewGrid.MaxHeight+"");
+            
+        }
+
+        private void TitleGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void TitleGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void TitleGrid_MouseMove(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }
