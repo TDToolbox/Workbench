@@ -26,7 +26,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
@@ -40,24 +40,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <ComboBox x:Name="Combobox_Testing" Grid.Column="3">
-                <ComboBox.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FFB9B9B9" Offset="1"/>
-                        <GradientStop Color="#99A6A6A6" Offset="0.748"/>
-                    </LinearGradientBrush>
-                </ComboBox.Background>
-                <ListBoxItem>
-                    <Button x:Name="TestWindow_Button" Grid.Column="3" Content="Open Test Window" FontSize="12" Click="TestWindow_Button_Click" />
-                </ListBoxItem>
-                <ListBoxItem>
-                    <Button x:Name="Gurren_Button" Grid.Column="3" Content="Open Gurren Test Window" FontSize="12" Click="GurrenTest_Button_Click"/>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <Button x:Name="Mallis_Button" Grid.Column="3" Content="Open Mallis Test Window" FontSize="12" Click="MallisTesting_Button_Click"/>
-                </ListBoxItem>
-            </ComboBox>
+            <Button x:Name="TestWindow_Button" Grid.Column="1" Content="Open Test Window" FontSize="12" Click="TestWindow_Button_Click" />
+                <Button x:Name="Gurren_Button" Grid.Column="2" Content="Open Gurren Test Window" FontSize="12" Click="GurrenTest_Button_Click"/>
+            <Button x:Name="Mallis_Button" Grid.Column="3" Content="Open Mallis Test Window" FontSize="12" Click="MallisTesting_Button_Click"/>
         </Grid>
 
         <Grid Grid.Row="3" Grid.Column="3">
