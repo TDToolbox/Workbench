@@ -36,5 +36,15 @@ namespace Workbench
             newItem.Items.Add(l);
             source.Items.Add(newItem);
         }
+
+        private void Window_MouseMove(object sender, MouseEventArgs e)
+        {
+            double fileEditHeight = FileEditMenu.ActualHeight;
+            double availableSpace = MallisTestWindow.ActualHeight - fileEditHeight;
+            FileViewGrid.MaxHeight = availableSpace;
+            GroupBox modView = (GroupBox)FileViewGrid.Children[0];
+            GroupBox jetView = (GroupBox)FileViewGrid.Children[1];
+            Log.Output(FileViewGrid.MaxHeight+"");
+        }
     }
 }

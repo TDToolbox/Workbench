@@ -14,7 +14,8 @@
         xmlns:local="clr-namespace:Workbench" 
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
-        Title="MallisTesting" Height="450" Width="800">
+        Title="MallisTesting" Height="450" Width="800" MouseMove="Window_MouseMove"
+        Name="MallisTestWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -27,7 +28,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <!-- Menu Bar -->
-        <Menu Width="Auto" Grid.Column="0" Grid.Row="0">
+        <Menu Width="Auto" Grid.Column="0" Grid.Row="0" Name="FileEditMenu">
             <MenuItem Header="File">
                 <MenuItem x:Name="AppExit" Header="Exit" HorizontalAlignment="Left" Width="auto"/>
             </MenuItem>
@@ -39,24 +40,30 @@
             </MenuItem>
         </Menu>
         <!-- Mod view -->
-        <GroupBox Grid.Column="0" Grid.Row="1" Header="Mod Files">
-            <ScrollViewer>
-                <TreeView>
-                    <TreeViewItem Header="Mod">
-                        <TreeViewItem Header="meta.json"/>
-                    </TreeViewItem>
-                </TreeView>
-            </ScrollViewer>
-        </GroupBox>
-        <!-- Jet view -->
-        <GroupBox Grid.Column="0" Grid.Row="2" Header="Jet Files" Height="Auto" Margin="0" >
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <TreeView Grid.Column="0" Grid.Row="2">
-                    <TreeViewItem Header="Jet" Expanded="TreeViewItem_Expanded">
-                        <Label Content="Test"/>
-                    </TreeViewItem>
-                </TreeView>
-            </ScrollViewer>
-        </GroupBox>
+        <Grid Grid.Row="1" Name="FileViewGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <GroupBox Grid.Column="0" Grid.Row="0" Header="Mod Files">
+                <ScrollViewer>
+                    <TreeView>
+                        <TreeViewItem Header="Mod">
+                            <TreeViewItem Header="meta.json"/>
+                        </TreeViewItem>
+                    </TreeView>
+                </ScrollViewer>
+            </GroupBox>
+            <!-- Jet view -->
+            <GroupBox Grid.Column="0" Grid.Row="1" Header="Jet Files" Height="Auto" Margin="0" >
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <TreeView Grid.Column="0" Grid.Row="2">
+                        <TreeViewItem Header="Jet" Expanded="TreeViewItem_Expanded">
+                            <Label Content="Test"/>
+                        </TreeViewItem>
+                    </TreeView>
+                </ScrollViewer>
+            </GroupBox>
+        </Grid>
     </Grid>
 </Window>
