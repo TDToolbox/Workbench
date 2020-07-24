@@ -22,6 +22,8 @@ namespace Workbench
             {
                 ConsoleLog.AppendText(e.Message);
                 ConsoleLog.ScrollToEnd();
+
+                Console.WriteLine(e.Message);
             }));
         }
 
