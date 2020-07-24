@@ -1,4 +1,5 @@
 ﻿using BTD_Backend;
+using BTD_Backend.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,50 @@ namespace Workbench
     /// </summary>
     public partial class MallisTesting : Window
     {
+        public static MallisTesting Instance;
         public MallisTesting()
         {
             InitializeComponent();
+            Instance = this;
+            addTreeDel = new AddTreeItemDel(AddTreeItem);
+            //AddTreeItemDel.CreateDelegate(typeof(MallisTesting), Instance, "AddTreeItem");
+
             Log.Output("how");
+
+            
+        }
+
+        private void MallisTestingWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            BgThread.AddToQueue(() =>
+            {
+                Zip zip = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
+                var list = zip.GetFilesInZip();
+
+                int i = 0;
+                foreach (var item in list)
+                {
+                    TreeViewItem treeItem = new TreeViewItem();
+                    treeItem.Header = item;
+                    addTreeDel.Invoke(treeItem);
+                    /*Instance.JetTreeView.Items.Dispatcher.Invoke((Action)(() =>
+                    {
+                        Instance.JetTreeView.Items.Add(treeItem);
+                    }));*/
+                }
+            }, System.Threading.ApartmentState.STA);
+        }
+
+
+        public delegate void AddTreeItemDel(TreeViewItem item);
+        public static AddTreeItemDel addTreeDel;
+        public void AddTreeItem(TreeViewItem item)
+        {
+            Instance.JetTreeView.Items.Add(item);
+            /*Instance.JetTreeView.Dispatcher.BeginInvoke((Action)(() =>
+             {
+                 
+             }));*/
         }
 
         private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)

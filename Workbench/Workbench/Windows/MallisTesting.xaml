@@ -15,7 +15,7 @@
         xmlns:local="clr-namespace:Workbench" 
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
-        Title="MallisTesting" Height="450" Width="800" SizeChanged="MallisTestingWindow_SizeChanged">
+        Title="MallisTesting" Height="450" Width="800" SizeChanged="MallisTestingWindow_SizeChanged" Loaded="MallisTestingWindow_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
