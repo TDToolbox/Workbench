@@ -25,5 +25,16 @@ namespace Workbench
             InitializeComponent();
             Log.Output("how");
         }
+
+        private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem source = (TreeViewItem)e.Source;
+            TreeViewItem newItem = new TreeViewItem();
+            newItem.Header = "Gameing";
+            Label l = new Label();
+            l.Content = "Gameing";
+            newItem.Items.Add(l);
+            source.Items.Add(newItem);
+        }
     }
 }
