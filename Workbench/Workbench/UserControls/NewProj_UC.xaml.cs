@@ -275,7 +275,7 @@ namespace Workbench.UserControls
             ZipFile proj = new ZipFile(projPath);
             foreach (var item in Projects)
             {
-                proj.AddDirectory(item.ToString());
+                proj.AddDirectoryByName(item.ToString());
             }
 
             proj.Save();
