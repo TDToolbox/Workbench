@@ -5,13 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Workbench.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="800">
+             d:DesignHeight="100" d:DesignWidth="250">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="1"/>
+            <ColumnDefinition Width="1"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="5"/>
@@ -21,5 +21,11 @@
         </Grid.RowDefinitions>
 
         <Image x:Name="ProjIcon_Image" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1"/>
+
+        
+        <TextBlock x:Name="ProjName_TextBlock" x:FieldModifier="public" Grid.Row="1" Grid.Column="2" Text="Project 1" Foreground="White" FontSize="16" FontWeight="Bold"/>
+        <TextBlock x:Name="ProjPath_TextBlock" Grid.Row="2" Grid.Column="2" Text="e:\Users\Mrclone2\Source\Repos\BTD Backend\BTD Backend.sln" Foreground="#FF727272"/>
+        <TextBlock x:Name="DateLastOpened_TextBlock" Grid.Row="1" Grid.Column="3" Text="7/25/20  9:01 am" Foreground="#FF727272"/>
+        
     </Grid>
 </UserControl>
