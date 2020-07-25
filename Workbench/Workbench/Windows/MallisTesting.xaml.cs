@@ -24,7 +24,7 @@ namespace Workbench
     /// </summary>
     public partial class MallisTesting : Window
     {
-
+        public string Wbp_Path { get; set; }
         public MallisTesting()
         {
             InitializeComponent();
