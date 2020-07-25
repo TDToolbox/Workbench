@@ -107,7 +107,7 @@ namespace Workbench.UserControls
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            Window parent = (Window)this.Parent;
+            Window parent = (Window)((Grid)this.Parent).Parent;
             parent.Close();
         }
     }
