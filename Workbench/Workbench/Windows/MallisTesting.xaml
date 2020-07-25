@@ -18,8 +18,7 @@
         Title="MallisTesting"
         Height="450"
         Width="800" 
-        Loaded="MallisTestingWindow_Loaded" 
-        MouseMove="Window_MouseMove"
+        Loaded="MallisTestingWindow_Loaded"
         ResizeMode="CanResizeWithGrip"
         >
 
@@ -40,29 +39,8 @@
         </Grid.RowDefinitions>
 
         <!-- TitleBar -->
-        <Grid Grid.ColumnSpan="2" Background="#222222" MaxHeight="20" Height="20" HorizontalAlignment="Stretch" Width="auto">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <Button MaxHeight="20" Height="20" x:Name="TitleButton" Grid.ColumnSpan="2" MouseLeftButtonUp="TitleButton_MouseLeftButtonUp" Background="#222222" BorderBrush="#222222" PreviewMouseLeftButtonDown="TitleButton_PreviewMouseLeftButtonDown"/>
-            <Label Content="Workbench" Grid.ColumnSpan="2" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
-            <Button Grid.Column="4" Background="Red" Click="CloseButton_Click" Height="16" BorderThickness="0" BorderBrush="Red" Margin="5,0,0,2">
-                <Label Content="X" Margin="-10" IsHitTestVisible="False"/>
-            </Button>
-            <Button Grid.Column="3" Click="MaximizeButton_Click" Height="16" BorderThickness="0"  Margin="5,0,0,2">
-                <Rectangle Margin="-2" Width="10" Height="10" Stroke="Black" StrokeThickness="1" IsHitTestVisible="False"/>
-            </Button>
-            <Button Grid.Column="2" Click="MinimizeButton_Click" Height="16" BorderThickness="0" Margin="5,0,0,2">
-                <Line X1="0" Y1="1" X2="10" Y2="1" Stroke="Black" StrokeThickness="1" IsHitTestVisible="False"/>
-            </Button>
-        </Grid>
+        <usercontrols:TitleBar Grid.ColumnSpan="3"/>
+        
         <!-- Menu Bar -->
         <Menu Width="Auto" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Name="FileEditMenu">
             <MenuItem Header="File" Height="20">

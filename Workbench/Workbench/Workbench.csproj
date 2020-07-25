@@ -97,6 +97,9 @@
     <Compile Include="UserControls\Welcome_UC.xaml.cs">
       <DependentUpon>Welcome_UC.xaml</DependentUpon>
     </Compile>
+	<Compile Include="UserControls\TitleBar.xaml.cs">
+      <DependentUpon>TitleBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Win32.cs" />
     <Compile Include="Windows\GurrenTesting.xaml.cs">
       <DependentUpon>GurrenTesting.xaml</DependentUpon>
@@ -120,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Welcome_UC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Page Include="UserControls\TitleBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
