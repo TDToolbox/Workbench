@@ -184,14 +184,25 @@ namespace Workbench
         }
         private void MaximizeButton_Click(object sender, RoutedEventArgs e)
         {
-
-            IntPtr winHandle = new WindowInteropHelper(this).Handle;
-            Win32.ShowWindow(winHandle, (int)Win32.SW_MAXIMIZE);
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+            }
         }
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
-            IntPtr winHandle = new WindowInteropHelper(this).Handle;
-            Win32.ShowWindow(winHandle, (int)Win32.SW_MINIMIZE);
+            if (this.WindowState == WindowState.Minimized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = WindowState.Minimized;
+            }
         }
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

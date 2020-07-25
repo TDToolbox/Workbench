@@ -15,13 +15,20 @@
         xmlns:local="clr-namespace:Workbench" 
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
-        Title="MallisTesting" Height="450" Width="800" 
+        Title="MallisTesting"
+        Height="450"
+        Width="800" 
         Loaded="MallisTestingWindow_Loaded" 
         MouseMove="Window_MouseMove"
-        WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
+        MinWidth="100"
+        MinHeight="50"
         >
 
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
+    
     <Grid x:Name="MainGrid" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="100"/>
