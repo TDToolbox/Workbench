@@ -1,6 +1,7 @@
 ﻿using BTD_Backend.Game;
 using BTD_Backend.Game.Jet_Files;
 using BTD_Backend.IO;
+using Ionic.Zip;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -25,10 +26,10 @@ namespace Workbench.UserControls
         public enum ProjectTypes 
         {
             None,
-            Jet,
-            Save,
-            NKH,
-            Sprite
+            Jet_Mod,
+            Save_Mod,
+            NKH_Mod,
+            Sprite_Mod
         }
 
         public NewProj_UC()
@@ -147,15 +148,15 @@ namespace Workbench.UserControls
 
         private void JetMod_LBItem_Click(object sender, RoutedEventArgs e)
         {
-            if (Projects.Contains(ProjectTypes.Jet))
+            if (Projects.Contains(ProjectTypes.Jet_Mod))
             {
-                Projects.Remove(ProjectTypes.Jet);
+                Projects.Remove(ProjectTypes.Jet_Mod);
                 JetMod_LBItem.Background = orangeColor;
                 JetMod_LBItem.BorderBrush = orangeColor;
             }
             else
             {
-                Projects.Add(ProjectTypes.Jet);
+                Projects.Add(ProjectTypes.Jet_Mod);
                 JetMod_LBItem.Background = Brushes.LimeGreen;
                 JetMod_LBItem.BorderBrush = Brushes.Black;
             } 
@@ -164,15 +165,15 @@ namespace Workbench.UserControls
         private void SaveMod_LBItem_Click(object sender, RoutedEventArgs e)
         {
 
-            if (Projects.Contains(ProjectTypes.Save))
+            if (Projects.Contains(ProjectTypes.Save_Mod))
             {
-                Projects.Remove(ProjectTypes.Save);
+                Projects.Remove(ProjectTypes.Save_Mod);
                 SaveMod_LBItem.Background = orangeColor;
                 SaveMod_LBItem.BorderBrush = orangeColor;
             }
             else
             {
-                Projects.Add(ProjectTypes.Save);
+                Projects.Add(ProjectTypes.Save_Mod);
                 SaveMod_LBItem.Background = Brushes.LimeGreen;
                 SaveMod_LBItem.BorderBrush = Brushes.Black;
             }
@@ -180,15 +181,15 @@ namespace Workbench.UserControls
 
         private void NKHMod_LBItem_Click(object sender, RoutedEventArgs e)
         {
-            if (Projects.Contains(ProjectTypes.NKH))
+            if (Projects.Contains(ProjectTypes.NKH_Mod))
             {
-                Projects.Remove(ProjectTypes.NKH);
+                Projects.Remove(ProjectTypes.NKH_Mod);
                 NKHMod_LBItem.Background = orangeColor;
                 NKHMod_LBItem.BorderBrush = orangeColor;
             }
             else
             {
-                Projects.Add(ProjectTypes.NKH);
+                Projects.Add(ProjectTypes.NKH_Mod);
                 NKHMod_LBItem.Background = Brushes.LimeGreen;
                 NKHMod_LBItem.BorderBrush = Brushes.Black;
             }
@@ -241,19 +242,47 @@ namespace Workbench.UserControls
                 return;
             }
 
+            if (String.IsNullOrEmpty(ProjPass_TextBox.Text) && Game == GameType.BTDB)
+            {
+                MessageBox.Show("You need to enter a password for BTD Battles jet file before you can continue");
+                return;
+            }
+
             if (ProjName_TextBox.Text.Length <= 0)
             {
                 MessageBox.Show("You need to enter a project name before you can continue");
                 return;
             }
 
-            if (ProjPass_TextBox.Text.Length <= 0 && Game == GameType.BTDB)
+
+            string projPath = ProjLocation_TextBox.Text;
+            if (String.IsNullOrEmpty(projPath))
             {
-                MessageBox.Show("You need to enter a password for BTD Battles jet file before you can continue");
+                MessageBox.Show("You need to select where your project will be saved before you can continue");
                 return;
             }
 
+            if (File.Exists(projPath))
+            {
+                System.Windows.Forms.DialogResult diag = System.Windows.Forms.MessageBox.Show("A project with that name alread exists! Do you want to continue anyways?", "Overwrite existing project?", System.Windows.Forms.MessageBoxButtons.YesNo);
+                if (diag == System.Windows.Forms.DialogResult.No)
+                    return;
+            }
+
+            if (File.Exists(projPath))
+                File.Delete(projPath);
+
+            ZipFile proj = new ZipFile(projPath);
+            foreach (var item in Projects)
+            {
+                proj.AddDirectory(item.ToString());
+            }
+
+            proj.Save();
+
             MallisTesting mallis = new MallisTesting();
+            mallis.Wbp_Path = ProjPass_TextBox.Text;
+
             mallis.WindowState = WindowState.Maximized;
             mallis.Show();
             MainWindow.Instance.Close();

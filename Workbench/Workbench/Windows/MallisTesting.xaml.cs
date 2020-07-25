@@ -26,6 +26,7 @@ namespace Workbench
     {
         private Zip jet;
 
+        public string Wbp_Path { get; set; }
         public MallisTesting()
         {
             InitializeComponent();
