@@ -28,11 +28,11 @@ namespace Workbench
                 }
             }
 
-            UserData.MainProgramName = "BTD Workbench";
+            /*UserData.MainProgramName = "BTD Workbench";
             UserData.MainProgramExePath = Environment.CurrentDirectory + "\\Workbench.exe";
             UserData.MainSettingsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BTD Workbench";
 
-            UserData.LoadUserData();
+            UserData.LoadUserData();*/
             
             /*if (UserData.Instance.NewUser)
             {

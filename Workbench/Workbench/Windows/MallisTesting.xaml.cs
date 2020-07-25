@@ -36,7 +36,7 @@ namespace Workbench
         }
 
 
-        double maxFileViewWid = 200;
+        double maxFileViewWid = 100;
         private void MallisTestingWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Thread refresher = new Thread(()=>
@@ -49,23 +49,12 @@ namespace Workbench
                         {
                             double fileEditHeight = FileEditMenu.ActualHeight;
                             //Point winLoc = Instance.PointToScreen(new Point(0, 0));
-                            double availableSpace = MallisTestingWindow.ActualHeight - (fileEditHeight + TitleGrid.ActualHeight + 5);
+                            double availableSpace = MallisTestingWindow.ActualHeight - (fileEditHeight + TitleButton.ActualHeight + 5);
 
                             Win32.POINT mousePt;
                             Win32.GetCursorPos(out mousePt);
                             Point mouseLocRel = FileViewGrid.PointFromScreen(new Point(mousePt.X, mousePt.Y));
 
-                            if (availableSpace > 0)
-                            {
-                                FileViewGrid.MaxHeight = availableSpace;
-                                GroupBox modView = (GroupBox)FileViewGrid.Children[1];
-                                GroupBox jetView = (GroupBox)FileViewGrid.Children[2];
-                                double jvHeight = availableSpace - modView.ActualHeight;
-                                if (jvHeight > 0)
-                                {
-                                    jetView.Height = jvHeight;
-                                }
-                            }
                             if (dragging)
                             {
                                 if (!Win32.GetAsyncKeyState(1))
@@ -75,15 +64,6 @@ namespace Workbench
                                 IntPtr winHandle = new WindowInteropHelper(this).Handle;
                                 Win32.ReleaseCapture();
                                 Win32.SendMessage(winHandle, Win32.WM_NCLBUTTONDOWN, Win32.HTCAPTION, 0);
-                            }
-                            if (splitterMoving)
-                            {
-                                if (!Win32.GetAsyncKeyState(1))
-                                {
-                                    splitterMoving = false;
-                                }
-                                if(mouseLocRel.X > 0 && (Instance.ActualWidth- maxFileViewWid) > mouseLocRel.X)
-                                    FileViewGrid.Width = mouseLocRel.X;
                             }
                             if((Instance.ActualWidth - maxFileViewWid) > 0 && (Instance.ActualWidth - maxFileViewWid) < FileViewGrid.Width)
                             {
@@ -163,45 +143,34 @@ namespace Workbench
             JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight - ModTreeViewItem.ActualHeight;
 	    }*/
 
-        Brush titleGridDown = new SolidColorBrush(Color.FromArgb(0xFF, 0x44, 0x44, 0x44));
-        Brush titleGridHover = new SolidColorBrush(Color.FromArgb(0xFF, 0x33, 0x33, 0x33));
-        Brush titleGrid = new SolidColorBrush(Color.FromArgb(0xFF, 0x22, 0x22, 0x22));
+        Brush TitleButtonDown = new SolidColorBrush(Color.FromArgb(0xFF, 0x44, 0x44, 0x44));
+        Brush TitleButtonHover = new SolidColorBrush(Color.FromArgb(0xFF, 0x33, 0x33, 0x33));
+        Brush TitleButtonDefault = new SolidColorBrush(Color.FromArgb(0xFF, 0x22, 0x22, 0x22));
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
-            if (TitleGrid.IsMouseOver)
+            if (TitleButton.IsMouseOver)
             {
                 if(Win32.GetAsyncKeyState(1))
                 {
-                    TitleGrid.Background = titleGridDown;
+                    TitleButton.Background = TitleButtonDown;
                     //Log.Output("Mouse over and clicked");
                 }
                 else
                 {
-                    TitleGrid.Background = titleGridHover;
+                    TitleButton.Background = TitleButtonHover;
                     //Log.Output("Mouse over");
                 }
             }
             else
             {
-                TitleGrid.Background = titleGrid;
+                TitleButton.Background = TitleButtonDefault;
                 //Log.Output("Mouse not over");
             }
         }
 
-        private void TitleGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void TitleButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            TitleGrid.Background = titleGridDown;
-            Point winLoc = Instance.PointToScreen(new Point(0, 0));
-            Win32.POINT mousePoint;
-            Win32.GetCursorPos(out mousePoint);
-            dx = mousePoint.X - (int)winLoc.X;
-            dy = mousePoint.Y - (int)winLoc.Y;
-            dragging = true;
-        }
-
-        private void TitleGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            TitleGrid.Background = titleGrid;
+            TitleButton.Background = TitleButtonDefault;
             dragging = false;
         }
 
@@ -225,11 +194,6 @@ namespace Workbench
             Win32.ShowWindow(winHandle, (int)Win32.SW_MINIMIZE);
         }
 
-        private void MallisTestingWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            
-        }
-
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scv = (ScrollViewer)sender;
@@ -237,10 +201,15 @@ namespace Workbench
             e.Handled = true;
         }
 
-        bool splitterMoving = false;
-        private void Splitter_MouseDown(object sender, MouseButtonEventArgs e)
+        private void TitleButton_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            splitterMoving = true;
+            TitleButton.Background = TitleButtonDown;
+            Point winLoc = Instance.PointToScreen(new Point(0, 0));
+            Win32.POINT mousePoint;
+            Win32.GetCursorPos(out mousePoint);
+            dx = mousePoint.X - (int)winLoc.X;
+            dy = mousePoint.Y - (int)winLoc.Y;
+            dragging = true;
         }
 
         /*private void Window_MouseMove(object sender, MouseEventArgs e)

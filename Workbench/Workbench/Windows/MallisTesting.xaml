@@ -22,21 +22,19 @@
         ResizeMode="CanResizeWithGrip"
         >
 
-    <Grid x:Name="MainGrid">
+    <Grid x:Name="MainGrid" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" MinWidth="100"/>
+            <ColumnDefinition Width="*" MinWidth="100"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <!-- TitleBar -->
-        <Grid Grid.ColumnSpan="3" Background="#222222" MaxHeight="20" Height="20">
+        <Grid Grid.ColumnSpan="2" Background="#222222" MaxHeight="20" Height="20" HorizontalAlignment="Stretch" Width="auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
@@ -47,8 +45,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Grid x:Name="TitleGrid" Grid.ColumnSpan="2" MouseLeftButtonDown="TitleGrid_MouseLeftButtonDown" MouseLeftButtonUp="TitleGrid_MouseLeftButtonUp"/>
-            <Label Content="Mallis Testing" Grid.ColumnSpan="2" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button MaxHeight="20" Height="20" x:Name="TitleButton" Grid.ColumnSpan="2" MouseLeftButtonUp="TitleButton_MouseLeftButtonUp" Background="#222222" BorderBrush="#222222" PreviewMouseLeftButtonDown="TitleButton_PreviewMouseLeftButtonDown"/>
+            <Label Content="Workbench" Grid.ColumnSpan="2" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
             <Button Grid.Column="4" Background="Red" Click="CloseButton_Click" Height="16" BorderThickness="0" BorderBrush="Red"/>
             <Button Grid.Column="3" Background="Cyan" Click="MaximizeButton_Click" Height="16" BorderThickness="0" BorderBrush="Cyan"/>
             <Button Grid.Column="2" Background="Cyan" Click="MinimizeButton_Click" Height="16" BorderThickness="0" BorderBrush="Cyan"/>
@@ -65,7 +63,8 @@
                 <MenuItem x:Name="About" Header="About" HorizontalAlignment="Left" Width="auto" Height="25"/>
             </MenuItem>
         </Menu>
-        <Grid Grid.Row="2" Name="FileViewGrid" HorizontalAlignment="Left" MinWidth="100">
+        <!--File Shit grid-->
+        <Grid Grid.Row="2" Name="FileViewGrid" HorizontalAlignment="Stretch" MinWidth="100">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
@@ -73,25 +72,22 @@
             <Border Grid.RowSpan="2" BorderThickness="2" BorderBrush="#FF00BCD4"/>
             <!-- Mod view -->
             <GroupBox Grid.Column="0" Grid.Row="0" Header="Mod Files">
-                <ScrollViewer>
-                    <TreeView>
-                        <TreeViewItem Header="Mod">
-                            <TreeViewItem Header="meta.json"/>
-                        </TreeViewItem>
-                    </TreeView>
-                </ScrollViewer>
+                <TreeView>
+                    <TreeViewItem Header="Mod">
+                        <TreeViewItem Header="meta.json"/>
+                    </TreeViewItem>
+                </TreeView>
             </GroupBox>
             <!-- Jet view -->
-            <GroupBox Grid.Column="0" Grid.Row="1" Header="Jet Files" Height="Auto" Margin="0" >
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
-                    <TreeView Grid.Column="0" Grid.Row="2">
-                        <TreeViewItem Header="Jet" Expanded="TreeViewItem_Expanded">
-                            <Label Content="Test"/>
-                        </TreeViewItem>
-                    </TreeView>
-                </ScrollViewer>
+            <GroupBox Grid.Column="0" Grid.Row="1" Header="Jet Files" Height="auto" Margin="0">
+                <TreeView Grid.Column="0" Grid.Row="2">
+                    <TreeViewItem Header="Jet" Expanded="TreeViewItem_Expanded">
+                        <Label Content="Test"/>
+                    </TreeViewItem>
+                </TreeView>
             </GroupBox>
         </Grid>
-        <Rectangle Name="Splitter" Grid.Column="1" Grid.Row="2" Grid.RowSpan="4" Fill="#222222" MouseDown="Splitter_MouseDown" Cursor="SizeWE"/>
+        <!--<Rectangle Name="Splitter" Grid.Column="1" Grid.Row="2" Grid.RowSpan="4" Fill="#222222" MouseDown="Splitter_MouseDown" Cursor="SizeWE"/>-->
+        <GridSplitter Grid.Column="0" Grid.Row="2" Width="5"/>
     </Grid>
 </Window>
