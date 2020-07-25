@@ -20,26 +20,18 @@ namespace Workbench
             Log.Instance.MessageLogged += MainWindow_MessageLogged;
             Log.Output("Welcome to BTD Workbench");
 
-            foreach(FileInfo file in new DirectoryInfo(Environment.CurrentDirectory).GetFiles())
-            {
-                if(file.Extension == ".dll")
-                {
-                    Assembly.LoadFrom(file.FullName);
-                }
-            }
-
-            /*UserData.MainProgramName = "BTD Workbench";
+            UserData.MainProgramName = "BTD Workbench";
             UserData.MainProgramExePath = Environment.CurrentDirectory + "\\Workbench.exe";
             UserData.MainSettingsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BTD Workbench";
 
-            UserData.LoadUserData();*/
-            
-            /*if (UserData.Instance.NewUser)
+            UserData.LoadUserData();
+
+            if (UserData.Instance.NewUser)
             {
                 Welcome_UC welcome = new Welcome_UC();
                 ContentPanel.Children.Add(welcome);
             }
-            */
+
 #if DEBUG
             Console.WriteLine("DEBUG");
 #else
