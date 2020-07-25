@@ -1,6 +1,7 @@
 ﻿using BTD_Backend.Game;
 using BTD_Backend.Game.Jet_Files;
 using BTD_Backend.IO;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,12 +16,27 @@ namespace Workbench.UserControls
     /// </summary>
     public partial class NewProj_UC : UserControl
     {
+        string battlesPass = "";
         public GameType Game { get; set; } = GameType.None;
-        public string ModType { get; set; }
+
+        public List<ProjectTypes> Projects;
+        SolidColorBrush orangeColor = new SolidColorBrush(Color.FromArgb(255, 255, 152, 0));
+
+        public enum ProjectTypes 
+        {
+            None,
+            Jet,
+            Save,
+            NKH,
+            Sprite
+        }
+
         public NewProj_UC()
         {
             InitializeComponent();
         }
+        
+        
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -45,7 +61,7 @@ namespace Workbench.UserControls
 
         private void GameTypes_ListB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ModType = "";
+            Projects = new List<ProjectTypes>();
             ResetButtonColors();
 
             var selected = GameTypes_ListB.SelectedItem;
@@ -58,6 +74,7 @@ namespace Workbench.UserControls
                 ProjPass_TextBox.IsEnabled = false;
                 ProjPass_TextBox.Text = "Q%_{6#Px]]";
             }
+
             if (selected == BTDB_LBItem)
             {
                 Game = GameType.BTDB;
@@ -67,6 +84,7 @@ namespace Workbench.UserControls
                 ProjPass_TextBox.Text = "";
                 BTDBHandling();
             }
+
             if (selected == BMC_LBItem)
             {
                 Game = GameType.BMC;
@@ -79,7 +97,17 @@ namespace Workbench.UserControls
             }
         }
 
-        string battlesPass = "";
+        private void ResetButtonColors()
+        {
+            JetMod_LBItem.Background = orangeColor;
+            JetMod_LBItem.BorderBrush = orangeColor;
+            SaveMod_LBItem.Background = orangeColor;
+            SaveMod_LBItem.BorderBrush = orangeColor;
+            NKHMod_LBItem.Background = orangeColor;
+            NKHMod_LBItem.BorderBrush = orangeColor;
+        }
+
+       
         private void BTDBHandling()
         {
             if (!String.IsNullOrEmpty(battlesPass))
@@ -115,42 +143,55 @@ namespace Workbench.UserControls
             ProjPass_TextBox.Text = pass;            
         }
 
-        private void ResetButtonColors(byte alpha = 255)
-        {
-            var color = new SolidColorBrush(Color.FromArgb(alpha, 255, 152, 0));
-            JetMod_LBItem.Background = color;
-            JetMod_LBItem.BorderBrush = color;
-            SaveMod_LBItem.Background = color;
-            SaveMod_LBItem.BorderBrush = color;
-            NKHMod_LBItem.Background = color;
-            NKHMod_LBItem.BorderBrush = color;
-        }
+        
 
         private void JetMod_LBItem_Click(object sender, RoutedEventArgs e)
         {
-            ResetButtonColors(200);
-            ModType = "Jet";
-            JetMod_LBItem.Background = Brushes.LimeGreen;
-            JetMod_LBItem.BorderBrush = Brushes.Black;
+            if (Projects.Contains(ProjectTypes.Jet))
+            {
+                Projects.Remove(ProjectTypes.Jet);
+                JetMod_LBItem.Background = orangeColor;
+                JetMod_LBItem.BorderBrush = orangeColor;
+            }
+            else
+            {
+                Projects.Add(ProjectTypes.Jet);
+                JetMod_LBItem.Background = Brushes.LimeGreen;
+                JetMod_LBItem.BorderBrush = Brushes.Black;
+            } 
         }
 
         private void SaveMod_LBItem_Click(object sender, RoutedEventArgs e)
         {
-            ResetButtonColors(200);
-            ModType = "Save";
-            ProjPass_TextBox.Text = "";
-            ProjPass_TextBox.IsEnabled = false;
 
-            SaveMod_LBItem.Background = Brushes.LimeGreen;
-            SaveMod_LBItem.BorderBrush = Brushes.Black;
+            if (Projects.Contains(ProjectTypes.Save))
+            {
+                Projects.Remove(ProjectTypes.Save);
+                SaveMod_LBItem.Background = orangeColor;
+                SaveMod_LBItem.BorderBrush = orangeColor;
+            }
+            else
+            {
+                Projects.Add(ProjectTypes.Save);
+                SaveMod_LBItem.Background = Brushes.LimeGreen;
+                SaveMod_LBItem.BorderBrush = Brushes.Black;
+            }
         }
 
         private void NKHMod_LBItem_Click(object sender, RoutedEventArgs e)
         {
-            ResetButtonColors(200);
-            ModType = "NKH";
-            NKHMod_LBItem.Background = Brushes.LimeGreen;
-            NKHMod_LBItem.BorderBrush = Brushes.Black;
+            if (Projects.Contains(ProjectTypes.NKH))
+            {
+                Projects.Remove(ProjectTypes.NKH);
+                NKHMod_LBItem.Background = orangeColor;
+                NKHMod_LBItem.BorderBrush = orangeColor;
+            }
+            else
+            {
+                Projects.Add(ProjectTypes.NKH);
+                NKHMod_LBItem.Background = Brushes.LimeGreen;
+                NKHMod_LBItem.BorderBrush = Brushes.Black;
+            }
         }
 
         private void Back_Button_Click(object sender, RoutedEventArgs e)
@@ -161,6 +202,31 @@ namespace Workbench.UserControls
             MainWindow.Instance.ContentPanel.Children.Remove(this);
         }
 
+        private void BrowseLocation_Button_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.InitialDirectory = Environment.CurrentDirectory;
+            fileDialog.Title = "Select project path";
+            fileDialog.CheckFileExists = false;
+            fileDialog.CheckPathExists = false;
+            fileDialog.DefaultExt = "wbp";
+            fileDialog.Filter = "Workbench projects (*.wbp)|*.wbp";
+
+            if (!String.IsNullOrEmpty(ProjName_TextBox.Text))
+                fileDialog.FileName = ProjName_TextBox.Text;
+
+            if (fileDialog.ShowDialog().Value)
+            {
+                ProjLocation_TextBox.Text = fileDialog.FileName;
+
+                if (String.IsNullOrEmpty(ProjName_TextBox.Text))
+                {
+                    FileInfo f = new FileInfo(fileDialog.FileName);
+                    ProjName_TextBox.Text = f.Name.Replace(f.Extension, "");
+                }
+            }
+        }
+
         private void Create_Button_Click(object sender, RoutedEventArgs e)
         {
             if (Game == GameType.None)
@@ -169,7 +235,7 @@ namespace Workbench.UserControls
                 return;
             }
 
-            if (String.IsNullOrEmpty(ModType))
+            if (Projects.Count == 0)
             {
                 MessageBox.Show("Please select which type of mod you want to make");
                 return;
@@ -186,26 +252,11 @@ namespace Workbench.UserControls
                 MessageBox.Show("You need to enter a password for BTD Battles jet file before you can continue");
                 return;
             }
-        }
 
-        private void ProjName_TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void BrowseLocation_Button_Click(object sender, RoutedEventArgs e)
-        {
-            /*CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.IsFolderPicker = true;
-            dialog.Title = "Select the project folder";
-            dialog.Multiselect = false;
-            dialog.InitialDirectory = Environment.CurrentDirectory;
-
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                ProjLocation_TextBox.Text = dialog.FileName;
-                ProjLocation_TextBox.Select(ProjLocation_TextBox.Text.Length - 1, ProjLocation_TextBox.Text.Length - 1);
-            }*/
+            MallisTesting mallis = new MallisTesting();
+            mallis.WindowState = WindowState.Maximized;
+            mallis.Show();
+            MainWindow.Instance.Close();
         }
     }
 }
