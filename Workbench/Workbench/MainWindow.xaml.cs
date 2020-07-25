@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using BTD_Backend;
+using BTD_Backend.IO;
 using BTD_Backend.Persistence;
 using Workbench.UserControls;
 
@@ -26,10 +27,26 @@ namespace Workbench
 
             UserData.LoadUserData();
 
-            if (UserData.Instance.NewUser)
+            if (!UserData.Instance.NewUser)
             {
                 Welcome_UC welcome = new Welcome_UC();
                 ContentPanel.Children.Add(welcome);
+            }
+            else
+            {
+                
+                Zip jet = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
+                jet.Password = jet.TryGetPassword();
+                //MessageBox.Show("Password: " + jet.Password);
+
+                var entries = jet.GetEntries(Zip.EntryType.Files, "TowerDefinitions");
+                //MessageBox.Show("Got Entries");
+
+                var text = jet.ReadFileInZip(entries[0]);
+                //MessageBox.Show(text);
+                LinedTextBox_UC linedTextBox = new LinedTextBox_UC();
+                linedTextBox.TextEditor.Text = text;
+                ContentPanel.Children.Add(linedTextBox);
             }
 
 #if DEBUG
