@@ -30,11 +30,13 @@ namespace Workbench
             addTreeDel = new AddTreeItemDel(AddTreeItem);
             //AddTreeItemDel.CreateDelegate(typeof(MallisTesting), Instance, "AddTreeItem");
 
-            Log.Output("how");
+            //Log.Output("how");
 
             
         }
 
+
+        double maxFileViewWid = 200;
         private void MallisTestingWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Thread refresher = new Thread(()=>
@@ -43,12 +45,15 @@ namespace Workbench
                 {
                     try
                     {
-
                         Instance.Dispatcher.Invoke((Action)delegate
                         {
                             double fileEditHeight = FileEditMenu.ActualHeight;
                             //Point winLoc = Instance.PointToScreen(new Point(0, 0));
                             double availableSpace = MallisTestingWindow.ActualHeight - (fileEditHeight + TitleGrid.ActualHeight + 5);
+
+                            Win32.POINT mousePt;
+                            Win32.GetCursorPos(out mousePt);
+                            Point mouseLocRel = FileViewGrid.PointFromScreen(new Point(mousePt.X, mousePt.Y));
 
                             if (availableSpace > 0)
                             {
@@ -63,14 +68,32 @@ namespace Workbench
                             }
                             if (dragging)
                             {
-                                Win32.POINT mousePoint;
-                                Win32.GetCursorPos(out mousePoint);
+                                if (!Win32.GetAsyncKeyState(1))
+                                {
+                                    dragging = false;
+                                }
                                 IntPtr winHandle = new WindowInteropHelper(this).Handle;
-                                int newX = mousePoint.X - dx;
-                                int newY = mousePoint.Y - dy;
-                                Win32.SetWindowPos(winHandle, IntPtr.Zero, newX, newY, (int)Instance.Width, (int)Instance.Height, Win32.SetWindowPosFlags.ShowWindow);
+                                Win32.ReleaseCapture();
+                                Win32.SendMessage(winHandle, Win32.WM_NCLBUTTONDOWN, Win32.HTCAPTION, 0);
+                            }
+                            if (splitterMoving)
+                            {
+                                if (!Win32.GetAsyncKeyState(1))
+                                {
+                                    splitterMoving = false;
+                                }
+                                if(mouseLocRel.X > 0 && (Instance.ActualWidth- maxFileViewWid) > mouseLocRel.X)
+                                    FileViewGrid.Width = mouseLocRel.X;
+                            }
+                            if((Instance.ActualWidth - maxFileViewWid) > 0 && (Instance.ActualWidth - maxFileViewWid) < FileViewGrid.Width)
+                            {
+                                FileViewGrid.Width = Instance.ActualWidth - maxFileViewWid;
                             }
                         });
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        break;
                     }
                     catch (Exception)
                     {
@@ -150,18 +173,18 @@ namespace Workbench
                 if(Win32.GetAsyncKeyState(1))
                 {
                     TitleGrid.Background = titleGridDown;
-                    Log.Output("Mouse over and clicked");
+                    //Log.Output("Mouse over and clicked");
                 }
                 else
                 {
                     TitleGrid.Background = titleGridHover;
-                    Log.Output("Mouse over");
+                    //Log.Output("Mouse over");
                 }
             }
             else
             {
                 TitleGrid.Background = titleGrid;
-                Log.Output("Mouse not over");
+                //Log.Output("Mouse not over");
             }
         }
 
@@ -186,9 +209,38 @@ namespace Workbench
         int dx;
         int dy;
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Instance.Close();
+        }
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            IntPtr winHandle = new WindowInteropHelper(this).Handle;
+            Win32.ShowWindow(winHandle, (int)Win32.SW_MAXIMIZE);
+        }
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            IntPtr winHandle = new WindowInteropHelper(this).Handle;
+            Win32.ShowWindow(winHandle, (int)Win32.SW_MINIMIZE);
+        }
+
+        private void MallisTestingWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            
+        }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
+
+        bool splitterMoving = false;
+        private void Splitter_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            splitterMoving = true;
         }
 
         /*private void Window_MouseMove(object sender, MouseEventArgs e)

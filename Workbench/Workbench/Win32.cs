@@ -15,9 +15,6 @@ namespace Workbench
         [DllImport("user32.dll")]
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-        public const int SW_HIDE = 0;
-        public const int SW_SHOW = 5;
-
         [DllImport("user32.dll")]
         public static extern bool GetAsyncKeyState(int vKey);
 
@@ -296,5 +293,58 @@ namespace Workbench
             /// <remarks>SWP_SHOWWINDOW</remarks>
             ShowWindow = 0x0040,
         }
+        public delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
+        public delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelMouseProc lpfn, IntPtr hMod, uint dwThreadId);
+        [DllImport("user32.dll")]
+        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr voidProcessId);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+        [DllImport("user32.dll")]
+        public static extern UInt64 GetWindowLong(IntPtr hWnd, int nIndex);
+        [DllImport("user32.dll")]
+        public static extern UInt64 SetWindowLong(IntPtr hWnd, int nIndex, UInt64 dwNewLong);
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr GetModuleHandle(string lpModuleName);
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool SetForegroundWindow(IntPtr hwnd);
+        [DllImport("user32.dll")]
+        public static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
+        public struct WINDOWPLACEMENT
+        {
+            public int length;
+            public int flags;
+            public int showCmd;
+            public System.Drawing.Point ptMinPosition;
+            public System.Drawing.Point ptMaxPosition;
+            public System.Drawing.Rectangle rcNormalPosition;
+        }
+        public const UInt32 SW_HIDE = 0;
+        public const UInt32 SW_SHOWNORMAL = 1;
+        public const UInt32 SW_NORMAL = 1;
+        public const UInt32 SW_SHOWMINIMIZED = 2;
+        public const UInt32 SW_SHOWMAXIMIZED = 3;
+        public const UInt32 SW_MAXIMIZE = 3;
+        public const UInt32 SW_SHOWNOACTIVATE = 4;
+        public const UInt32 SW_SHOW = 5;
+        public const UInt32 SW_MINIMIZE = 6;
+        public const UInt32 SW_SHOWMINNOACTIVE = 7;
+        public const UInt32 SW_SHOWNA = 8;
+
+        //Low level for toolbar dragging
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HTCAPTION = 0x2;
+        [DllImport("User32.dll")]
+        public static extern bool ReleaseCapture();
+        [DllImport("User32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
     }
 }

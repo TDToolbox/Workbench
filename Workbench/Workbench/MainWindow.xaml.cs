@@ -20,7 +20,7 @@ namespace Workbench
             Console.WriteLine("DEBUG");
 #else
             Console.WriteLine("RELEASE");
-            Win32.ShowWindow(Win32.GetConsoleWindow(), Win32.SW_HIDE);
+            Win32.ShowWindow(Win32.GetConsoleWindow(), (int)Win32.SW_HIDE);
 #endif
         }
 
