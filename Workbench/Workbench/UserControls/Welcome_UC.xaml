@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Workbench.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="850">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -26,7 +26,8 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -55,9 +56,27 @@
 
                 <TextBlock Grid.Column="1" Text="Open Recent" Foreground="White" FontSize="16"/>
 
-                <TreeView x:Name="MostRecent_Tree" Grid.Column="1" Grid.Row="1" Margin="5" Height="auto">
-                    <TreeViewItem Header="Today">
+                <TreeView x:Name="MostRecent_Tree" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3"  Margin="5" Height="auto">
+                    <TreeViewItem Header="Today" x:Name="Today">
+                        <Viewbox>
+                            <local:RecentProjItem_UC Width="400"/>
+                        </Viewbox>
+                    </TreeViewItem>
+                    <TreeViewItem Header="Yesterday">
                         <Label Content="Test"/>
+                    </TreeViewItem>
+                    <TreeViewItem Header="Older">
+                        <Label Content="Test"/>
+                    </TreeViewItem>
+                </TreeView>
+
+
+                <!-- 
+                <TreeView x:Name="MostRecent_Tree" Grid.Column="1" Grid.Row="1" Margin="5" Height="auto">
+                    <TreeViewItem Header="Today" x:Name="Today">
+                        <Viewbox>
+                            <local:RecentProjItem_UC Width="400"/>
+                        </Viewbox>
                     </TreeViewItem>
                 </TreeView>
 
@@ -72,10 +91,12 @@
                         <Label Content="Test"/>
                     </TreeViewItem>
                 </TreeView>
-
-                <!-- <Button Grid.Column="1" Grid.Row="1" Margin="5" Height="auto"/> -->
-                <!-- <Button Grid.Column="1" Grid.Row="2" Margin="5" Height="auto"/> -->
-                <!-- <Button Grid.Column="1" Grid.Row="3" Margin="5" Height="auto"/> -->
+                -->
+                
+                <!-- <Button Grid.Column="1" Grid.Row="1" Margin="5" Height="auto"/>
+                <Button Grid.Column="1" Grid.Row="2" Margin="5" Height="auto"/>
+                <Button Grid.Column="1" Grid.Row="3" Margin="5" Height="auto"/> -->
+                
             </Grid>
             <!-- End of Open Recent grid -->
 
@@ -90,10 +111,11 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+               
 
                 <TextBlock Text="Getting Started" Foreground="White" FontSize="16"/>
 
-                <Button x:Name="NewProject_Button" Grid.Column="0" Grid.Row="1" Content="New Project" Height="auto" Margin="0,10,0,1" FontSize="16"/>
+                <Button x:Name="NewProject_Button" Grid.Column="0" Grid.Row="1" Content="New Project" Height="auto" Margin="0,10,0,1" FontSize="16" Click="NewProject_Button_Click"/>
                 <Button x:Name="OpenProject_Button" Grid.Column="0" Grid.Row="2" Content="Open Project" Height="auto" Margin="0,10,0,1" FontSize="16"/>
                 <Button x:Name="CloneProject_Button" Grid.Column="0" Grid.Row="3" Content="Clone Github Project" Height="auto" Margin="0,10,0,1" FontSize="16"/>
                 <TextBlock x:Name="ContinueWithoutCode_Button" Grid.Row="4" Text="Continue without code" Margin="0,10,0,48" HorizontalAlignment="Center" MouseUp="ContinueWithoutCode_Button_MouseUp" Foreground="#FF76C7FF" FontSize="14" Cursor="Hand" />

@@ -88,6 +88,9 @@
     <Compile Include="UserControls\LinedTextBox_UC.xaml.cs">
       <DependentUpon>LinedTextBox_UC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\NewProj_UC.xaml.cs">
+      <DependentUpon>NewProj_UC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\RecentProjItem_UC.xaml.cs">
       <DependentUpon>RecentProjItem_UC.xaml</DependentUpon>
     </Compile>
@@ -108,6 +111,10 @@
       <DependentUpon>TestingWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="UserControls\LinedTextBox_UC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\NewProj_UC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

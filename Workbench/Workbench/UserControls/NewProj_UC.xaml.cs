@@ -16,15 +16,21 @@ using System.Windows.Shapes;
 namespace Workbench.UserControls
 {
     /// <summary>
-    /// Interaction logic for RecentProjItem_UC.xaml
+    /// Interaction logic for NewProj_UC.xaml
     /// </summary>
-    public partial class RecentProjItem_UC : UserControl
+    public partial class NewProj_UC : UserControl
     {
-        public string ProjName { get; set; } = "BTD Revolution";
-        public RecentProjItem_UC()
+        public NewProj_UC()
         {
             InitializeComponent();
-            ProjName_TextBlock.Text = ProjName;
+        }
+
+        private void Back_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Welcome_UC welcome = new Welcome_UC();
+            welcome.Height = MainWindow.Instance.ContentPanel.ActualHeight;
+            MainWindow.Instance.ContentPanel.Children.Add(welcome);
+            MainWindow.Instance.ContentPanel.Children.Remove(this);
         }
     }
 }

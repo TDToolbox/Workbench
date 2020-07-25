@@ -3,6 +3,8 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using BTD_Backend;
 using BTD_Backend.IO;
 using BTD_Backend.Persistence;
@@ -15,14 +17,18 @@ namespace Workbench
     /// </summary>
     public partial class MainWindow : Window
     {
-        LinedTextBox_UC linedTextBox;
+        public static MainWindow Instance;
+        
         public MainWindow()
         {
             InitializeComponent();
+            Instance = this;
+            //ContPanel = ContentPanel;
             Log.Instance.MessageLogged += MainWindow_MessageLogged;
-            Log.Output("Welcome to BTD Workbench");
-
             
+            Log.Output("Welcome to BTD Workbench");
+            
+
 
 #if DEBUG
             Console.WriteLine("DEBUG");
@@ -82,8 +88,7 @@ namespace Workbench
 
         private void ContentPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (linedTextBox != null)
-                linedTextBox.Height = ContentPanel.ActualHeight;
+
         }
     }
 }
