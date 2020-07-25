@@ -11,10 +11,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Workbench"
+        xmlns:local="clr-namespace:Workbench" xmlns:usercontrols="clr-namespace:Workbench.UserControls"
         mc:Ignorable="d"
         Title="BTD Workbench" Height="650" Width="800" WindowStartupLocation="CenterScreen" Margin="1" MinHeight="300" MinWidth="650" Loaded="Window_Loaded">
 
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
+
+    
     <!-- This is what a comment looks like-->
     <Grid>
         <Grid.ColumnDefinitions>
@@ -29,11 +35,15 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Grid.Column="3">
+        <!-- TitleBar -->
+        <usercontrols:TitleBar Grid.ColumnSpan="6"/>
+
+        <Grid Grid.Row="1" Grid.Column="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -46,7 +56,7 @@
             <Button x:Name="Mallis_Button" Grid.Column="3" Content="Open Mallis Test Window" FontSize="12" Click="MallisTesting_Button_Click"/>
         </Grid>
 
-        <Grid Grid.Row="3" Grid.Column="3">
+        <Grid Grid.Row="4" Grid.Column="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="335*"/>
             </Grid.ColumnDefinitions>

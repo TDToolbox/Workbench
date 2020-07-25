@@ -58,63 +58,6 @@ namespace Workbench
             source.Items.Add(newItem);
         }
 
-        Brush TitleButtonDown = new SolidColorBrush(Color.FromArgb(0xFF, 0x44, 0x44, 0x44));
-        Brush TitleButtonHover = new SolidColorBrush(Color.FromArgb(0xFF, 0x33, 0x33, 0x33));
-        Brush TitleButtonDefault = new SolidColorBrush(Color.FromArgb(0xFF, 0x22, 0x22, 0x22));
-        private void Window_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (TitleButton.IsMouseOver)
-            {
-                if(Win32.GetAsyncKeyState(1))
-                {
-                    TitleButton.Background = TitleButtonDown;
-                    //Log.Output("Mouse over and clicked");
-                }
-                else
-                {
-                    TitleButton.Background = TitleButtonHover;
-                    //Log.Output("Mouse over");
-                }
-            }
-            else
-            {
-                TitleButton.Background = TitleButtonDefault;
-                //Log.Output("Mouse not over");
-            }
-        }
-
-        private void TitleButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            TitleButton.Background = TitleButtonDefault;
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (this.WindowState == WindowState.Maximized)
-            {
-                this.WindowState = WindowState.Normal;
-            }
-            else
-            {
-                this.WindowState = WindowState.Maximized;
-            }
-        }
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (this.WindowState == WindowState.Minimized)
-            {
-                this.WindowState = WindowState.Normal;
-            }
-            else
-            {
-                this.WindowState = WindowState.Minimized;
-            }
-        }
-
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scv = (ScrollViewer)sender;
@@ -122,12 +65,5 @@ namespace Workbench
             e.Handled = true;
         }
 
-        private void TitleButton_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            TitleButton.Background = TitleButtonDown;
-            IntPtr winHandle = new WindowInteropHelper(this).Handle;
-            Win32.ReleaseCapture();
-            Win32.SendMessage(winHandle, Win32.WM_NCLBUTTONDOWN, Win32.HTCAPTION, 0);
-        }
     }
 }
