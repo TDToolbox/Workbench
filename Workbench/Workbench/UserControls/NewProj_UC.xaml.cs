@@ -32,5 +32,10 @@ namespace Workbench.UserControls
             MainWindow.Instance.ContentPanel.Children.Add(welcome);
             MainWindow.Instance.ContentPanel.Children.Remove(this);
         }
+
+        private void Next_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
