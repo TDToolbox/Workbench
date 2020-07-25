@@ -23,13 +23,28 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Text="What type of project do you want to create?" Foreground="White" FontSize="25"/>
-            <Button x:Name="Back_Button" Grid.Row="6" Content="Back" Height="auto" Margin="18" FontSize="18" Click="Back_Button_Click"/>
-            
-            
+            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="Create a new project" Foreground="White" FontSize="35" Margin="50,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
             <Image x:Name="JetMod_Image" Grid.Row="2" Grid.RowSpan="3" Margin="5"/>
             <Image x:Name="SaveMod_Image" Grid.Column="1" Grid.Row="2" Grid.RowSpan="3"/>
             <Image x:Name="NKHMod_Image" Grid.Column="2" Grid.Row="2" Grid.RowSpan="3"/>
+
+            <Grid Grid.Row="6" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="15"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="Back_Button" Grid.Row="1" Content="Back" Height="auto" Margin="4" FontSize="18" Click="Back_Button_Click"/>
+                <Button x:Name="Next_Button" Grid.Row="1" Grid.Column="2" Content="Next" Height="auto" Margin="4" FontSize="18" Click="Next_Button_Click"/>
+            </Grid>
             
         </Grid>
     </Grid>
