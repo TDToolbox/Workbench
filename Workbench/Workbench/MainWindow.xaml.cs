@@ -18,6 +18,7 @@ namespace Workbench
     public partial class MainWindow : Window
     {
         public static MainWindow Instance;
+        public static bool debugMode = false;
         
         public MainWindow()
         {
@@ -27,10 +28,11 @@ namespace Workbench
             Log.Instance.MessageLogged += MainWindow_MessageLogged;
             
             Log.Output("Welcome to BTD Workbench");
-            
+
 
 
 #if DEBUG
+            debugMode = true;
             Console.WriteLine("DEBUG");
 #else
             Console.WriteLine("RELEASE");

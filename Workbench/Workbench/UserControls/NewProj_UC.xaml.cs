@@ -4,18 +4,10 @@ using BTD_Backend.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Workbench.UserControls
 {
@@ -200,6 +192,21 @@ namespace Workbench.UserControls
         private void ProjName_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void BrowseLocation_Button_Click(object sender, RoutedEventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
+            dialog.Title = "Select the project folder";
+            dialog.Multiselect = false;
+            dialog.InitialDirectory = Environment.CurrentDirectory;
+
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                ProjLocation_TextBox.Text = dialog.FileName;
+                ProjLocation_TextBox.Select(ProjLocation_TextBox.Text.Length - 1, ProjLocation_TextBox.Text.Length - 1);
+            }
         }
     }
 }
