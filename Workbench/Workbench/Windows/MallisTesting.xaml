@@ -70,18 +70,12 @@
             <Border Grid.RowSpan="2" BorderThickness="2" BorderBrush="#FF00BCD4"/>
             <!-- Mod view -->
             <GroupBox Grid.Column="0" Grid.Row="0" Header="Mod Files">
-                <TreeView>
-                    <TreeViewItem Header="Mod">
-                        <TreeViewItem Header="meta.json"/>
-                    </TreeViewItem>
+                <TreeView x:Name="ModView">
                 </TreeView>
             </GroupBox>
             <!-- Jet view -->
             <GroupBox Grid.Column="0" Grid.Row="1" Header="Jet Files" Height="auto" Margin="0">
-                <TreeView Grid.Column="0" Grid.Row="2">
-                    <TreeViewItem Header="Jet" Expanded="TreeViewItem_Expanded">
-                        <Label Content="Test"/>
-                    </TreeViewItem>
+                <TreeView x:Name="JetView" Grid.Column="0" Grid.Row="2">>
                 </TreeView>
             </GroupBox>
         </Grid>
