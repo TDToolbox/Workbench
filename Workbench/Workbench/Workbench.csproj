@@ -82,6 +82,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="UserControls\Welcome_UC.xaml.cs">
+      <DependentUpon>Welcome_UC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Win32.cs" />
     <Compile Include="Windows\GurrenTesting.xaml.cs">
       <DependentUpon>GurrenTesting.xaml</DependentUpon>
@@ -92,6 +95,10 @@
     <Compile Include="Windows\TestingWindow.xaml.cs">
       <DependentUpon>TestingWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="UserControls\Welcome_UC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\GurrenTesting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -145,7 +152,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UserControls\" />
+    <Resource Include="Resources\Welcome 2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Welcome 1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.3.2.0-ci1779\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.2.0-ci1779\build\MaterialDesignThemes.targets')" />
