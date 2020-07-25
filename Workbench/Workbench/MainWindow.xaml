@@ -13,7 +13,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Workbench"
         mc:Ignorable="d"
-        Title="BTD Workbench" Height="450" Width="800" Margin="1" MinHeight="300" MinWidth="650">
+        Title="BTD Workbench" Height="450" Width="800" Margin="1" MinHeight="300" MinWidth="650" Loaded="Window_Loaded">
 
     <!-- This is what a comment looks like-->
     <Grid>
