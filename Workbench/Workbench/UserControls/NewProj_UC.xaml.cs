@@ -7,7 +7,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Workbench.UserControls
 {
@@ -196,7 +195,7 @@ namespace Workbench.UserControls
 
         private void BrowseLocation_Button_Click(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            /*CommonOpenFileDialog dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
             dialog.Title = "Select the project folder";
             dialog.Multiselect = false;
@@ -206,7 +205,7 @@ namespace Workbench.UserControls
             {
                 ProjLocation_TextBox.Text = dialog.FileName;
                 ProjLocation_TextBox.Select(ProjLocation_TextBox.Text.Length - 1, ProjLocation_TextBox.Text.Length - 1);
-            }
+            }*/
         }
     }
 }
