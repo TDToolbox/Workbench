@@ -28,7 +28,6 @@ namespace Workbench
         public MallisTesting()
         {
             InitializeComponent();
-            TitleBar.WindowTitle = "Test";
         }
 
 
