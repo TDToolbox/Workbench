@@ -23,12 +23,13 @@ namespace Workbench
             UserData.MainSettingsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BTD Workbench";
 
             UserData.LoadUserData();
-            if (UserData.Instance.NewUser)
+            
+            /*if (UserData.Instance.NewUser)
             {
                 Welcome_UC welcome = new Welcome_UC();
                 ContentPanel.Children.Add(welcome);
             }
-            
+            */
 #if DEBUG
             Console.WriteLine("DEBUG");
 #else
