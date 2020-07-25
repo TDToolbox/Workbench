@@ -71,10 +71,6 @@ namespace Workbench
                             }
                         });
                     }
-                    catch (InvalidOperationException)
-                    {
-                        break;
-                    }
                     catch (Exception)
                     {
                         break;
