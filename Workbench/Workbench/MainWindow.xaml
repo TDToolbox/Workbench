@@ -55,9 +55,8 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackPanel x:Name="ContentPanel" Grid.Row="0" Grid.RowSpan="2">
-                    
-            </StackPanel>
+            <StackPanel x:Name="ContentPanel" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Stretch" SizeChanged="ContentPanel_SizeChanged"/>
+            
             <RichTextBox x:Name="ConsoleLog" Grid.Row="2" VerticalScrollBarVisibility="Auto" Background="#FF7E7E7E" BorderThickness="1" IsReadOnly="True" FontFamily="Consolas" FontSize="16" BorderBrush="#89FFFFFF" Grid.ColumnSpan="2"/>
         </Grid>
     </Grid>

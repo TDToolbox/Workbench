@@ -15,6 +15,7 @@ namespace Workbench
     /// </summary>
     public partial class MainWindow : Window
     {
+        LinedTextBox_UC linedTextBox;
         public MainWindow()
         {
             InitializeComponent();
@@ -85,17 +86,23 @@ namespace Workbench
 
                 Zip jet = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
                 jet.Password = jet.TryGetPassword();
-                //MessageBox.Show("Password: " + jet.Password);
 
                 var entries = jet.GetEntries(Zip.EntryType.Files, "TowerDefinitions");
-                //MessageBox.Show("Got Entries");
-
                 var text = jet.ReadFileInZip(entries[0]);
-                //MessageBox.Show(text);
-                LinedTextBox_UC linedTextBox = new LinedTextBox_UC();
+                
+
+                linedTextBox = new LinedTextBox_UC();
+                linedTextBox.Height = ContentPanel.ActualHeight;
+
                 linedTextBox.TextEditor.Text = text;
                 ContentPanel.Children.Add(linedTextBox);
             }
+        }
+
+        private void ContentPanel_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (linedTextBox != null)
+                linedTextBox.Height = ContentPanel.ActualHeight;
         }
     }
 }
