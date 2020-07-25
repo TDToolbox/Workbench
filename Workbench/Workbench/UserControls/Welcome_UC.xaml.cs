@@ -44,6 +44,7 @@ namespace Workbench.UserControls
         {
             NewProj_UC newProj = new NewProj_UC();
             newProj.Height = MainWindow.Instance.ContentPanel.ActualHeight;
+            
             MainWindow.Instance.ContentPanel.Children.Add(newProj);
             MainWindow.Instance.ContentPanel.Children.Remove(this);
         }

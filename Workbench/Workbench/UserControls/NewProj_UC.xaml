@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Workbench.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -25,9 +25,20 @@
 
             <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="Create a new project" Foreground="White" FontSize="35" Margin="50,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-            <Image x:Name="JetMod_Image" Grid.Row="2" Grid.RowSpan="3" Margin="5"/>
-            <Image x:Name="SaveMod_Image" Grid.Column="1" Grid.Row="2" Grid.RowSpan="3"/>
-            <Image x:Name="NKHMod_Image" Grid.Column="2" Grid.Row="2" Grid.RowSpan="3"/>
+            <TextBlock Grid.Row="2" Text="Game:" Foreground="White" FontSize="18" Margin="0,0,0,40" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <ListBox x:Name="GameTypes_ListB" Grid.Row="2" Grid.RowSpan="3" Grid.Column="0" Margin="0,50,0,0" SelectionChanged="GameTypes_ListB_SelectionChanged">
+                <ListBoxItem x:Name="BTD5_LBItem" Content="Bloons TD 5" HorizontalAlignment="Center" FontSize="18"/>
+                <ListBoxItem x:Name="BTDB_LBItem" Content="Bloons TD Battles" HorizontalAlignment="Center" FontSize="18"/>
+                <ListBoxItem x:Name="BMC_LBItem" Content="Bloons Monkey City" HorizontalAlignment="Center" FontSize="18"/>
+                <ListBoxItem x:Name="BTD6_LBItem" Content="Bloons TD 6" HorizontalAlignment="Center" FontSize="18" IsEnabled="False"/>
+            </ListBox>
+
+            <ListBox x:Name="ProjTypes_ListB" Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="150,20,0,0">
+                <Button x:Name="JetMod_LBItem" Content="Jet Mod" Width="auto"  HorizontalAlignment="Center" Click="JetMod_LBItem_Click" IsEnabled="False"/>
+                <Button x:Name="SaveMod_LBItem" Content="Save Mod" Width="auto"  HorizontalAlignment="Center" Click="SaveMod_LBItem_Click" IsEnabled="False"/>
+                <Button x:Name="NKHMod_LBItem" Content="NKHook Mod" Width="auto"  HorizontalAlignment="Center" Click="NKHMod_LBItem_Click" IsEnabled="False"/>
+            </ListBox>
+
 
             <Grid Grid.Row="6" Grid.Column="2">
                 <Grid.ColumnDefinitions>
@@ -43,9 +54,56 @@
                 </Grid.RowDefinitions>
 
                 <Button x:Name="Back_Button" Grid.Row="1" Content="Back" Height="auto" Margin="4" FontSize="18" Click="Back_Button_Click"/>
-                <Button x:Name="Next_Button" Grid.Row="1" Grid.Column="2" Content="Next" Height="auto" Margin="4" FontSize="18" Click="Next_Button_Click"/>
+                <Button x:Name="Create_Button" Grid.Row="1" Grid.Column="2" Content="Create" Height="auto" Margin="4" FontSize="18" Click="Create_Button_Click"/>
             </Grid>
-            
+
+
+            <Grid x:Name="ProjTextBoxes_Grid" Grid.Row="5" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="ProjName_Grid" Grid.Row="1" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Project Name" Foreground="White"/>
+                    <TextBox x:Name="ProjName_TextBox" Grid.Row="1" Margin="2" Background="#FF616161" Foreground="White" CaretBrush="#FFFFBE5D" FontSize="16" FontFamily="Consolas" TextChanged="ProjName_TextBox_TextChanged"/>
+                </Grid>
+                <Grid x:Name="ProjLocation_Grid" Grid.Row="2" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="93*"/>
+                        <ColumnDefinition Width="421*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Project Location" Foreground="White" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="ProjLocation_TextBox" Grid.Row="1" Margin="2,2,80,2" Background="#FF616161" Foreground="White" CaretBrush="#FFFFBE5D" FontSize="16" FontFamily="Consolas" Grid.ColumnSpan="2"/>
+                    <Button x:Name="BrowseLocation_Button" Grid.Row="1" Grid.Column="1" Content="Browse" FontSize="13" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                </Grid>
+                <Grid x:Name="ProjPass_Grid" Grid.Row="3" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Jet Password" Foreground="White"/>
+                    <TextBox x:Name="ProjPass_TextBox" Grid.Row="1" Margin="2" Background="#FF616161" Foreground="White" CaretBrush="#FFFFBE5D" FontSize="16" FontFamily="Consolas"/>
+                </Grid>
+
+            </Grid>
+
         </Grid>
     </Grid>
 </UserControl>
