@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <acalonEdit:TextEditor x:Name="TextEditor" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <acalonEdit:TextEditor x:Name="TextEditor" FontFamily="Consolas" FontSize="18" ShowLineNumbers="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Background="#FF1C1C1C" Foreground="White">
             
         </acalonEdit:TextEditor>
     </Grid>
