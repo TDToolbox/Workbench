@@ -14,6 +14,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using Workbench.UserControls;
 
 namespace Workbench
 {
@@ -27,12 +28,6 @@ namespace Workbench
         {
             InitializeComponent();
             Instance = this;
-            addTreeDel = new AddTreeItemDel(AddTreeItem);
-            //AddTreeItemDel.CreateDelegate(typeof(MallisTesting), Instance, "AddTreeItem");
-
-            //Log.Output("how");
-
-            
         }
 
 
@@ -80,35 +75,19 @@ namespace Workbench
                 }
             });
             refresher.Start();
-            BgThread.AddToQueue(() =>
-            {
-                Zip zip = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
-                var list = zip.GetEntries(Zip.EntryType.Directories, "JSON");
 
-                int i = 0;
-                foreach (var item in list)
-                {
-                    TreeViewItem treeItem = new TreeViewItem();
-                    treeItem.Header = item;
-                    addTreeDel.Invoke(treeItem);
-                    /*Instance.JetTreeView.Items.Dispatcher.Invoke((Action)(() =>
-                    {
-                        Instance.JetTreeView.Items.Add(treeItem);
-                    }));*/
-                }
-            }, System.Threading.ApartmentState.STA);
-        }
+            Zip jet = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
+            jet.Password = jet.TryGetPassword();
+            //MessageBox.Show("Password: " + jet.Password);
 
+            var entries = jet.GetEntries(Zip.EntryType.Files, "TowerDefinitions");
+            //MessageBox.Show("Got Entries");
 
-        public delegate void AddTreeItemDel(TreeViewItem item);
-        public static AddTreeItemDel addTreeDel;
-        public void AddTreeItem(TreeViewItem item)
-        {
-            //Instance.JetTreeView.Items.Add(item);
-            /*Instance.JetTreeView.Dispatcher.BeginInvoke((Action)(() =>
-             {
-                 
-             }));*/
+            var text = jet.ReadFileInZip(entries[0]);
+            //MessageBox.Show(text);
+            LinedTextBox_UC linedTextBox = new LinedTextBox_UC();
+            linedTextBox.TextEditor.Text = text;
+            //ContentPanel.Children.Add(linedTextBox);
         }
 
         private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
@@ -121,23 +100,6 @@ namespace Workbench
             newItem.Items.Add(l);
             source.Items.Add(newItem);
         }
-
-        /*private void MallisTestingWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            //Subtracting 175 from ActualHeight to get the Height minus the UI elements above Jetfiles
-            //JetFiles.Height = MallisTestingWindow.ActualHeight - 175;
-            //JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight -88;
-        }
-
-        private void ModTreeViewItem_Expanded(object sender, RoutedEventArgs e)
-        {
-            //JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight - 88 - ModTreeViewItem.ActualHeight;
-        }
-
-        private void ModTreeViewItem_Collapsed(object sender, RoutedEventArgs e)
-        {
-            JetFiles.Height = MallisTestingWindow.ActualHeight - ModFiles.ActualHeight - ModTreeViewItem.ActualHeight;
-	    }*/
 
         Brush TitleButtonDown = new SolidColorBrush(Color.FromArgb(0xFF, 0x44, 0x44, 0x44));
         Brush TitleButtonHover = new SolidColorBrush(Color.FromArgb(0xFF, 0x33, 0x33, 0x33));
@@ -218,15 +180,5 @@ namespace Workbench
             dy = mousePoint.Y - (int)winLoc.Y;
             dragging = true;
         }
-
-        /*private void Window_MouseMove(object sender, MouseEventArgs e)
-        {
-            double fileEditHeight = FileEditMenu.ActualHeight;
-            double availableSpace = MallisTestingWindow.ActualHeight - fileEditHeight;
-            FileViewGrid.MaxHeight = availableSpace;
-            GroupBox modView = (GroupBox)FileViewGrid.Children[0];
-            GroupBox jetView = (GroupBox)FileViewGrid.Children[1];
-            Log.Output(FileViewGrid.MaxHeight+"");
-        }*/
     }
 }

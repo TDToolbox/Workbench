@@ -13,7 +13,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Workbench" 
-        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz" xmlns:usercontrols="clr-namespace:Workbench.UserControls"
         mc:Ignorable="d"
         Title="MallisTesting"
         Height="450"
@@ -97,5 +97,6 @@
         </Grid>
         <!--<Rectangle Name="Splitter" Grid.Column="1" Grid.Row="2" Grid.RowSpan="4" Fill="#222222" MouseDown="Splitter_MouseDown" Cursor="SizeWE"/>-->
         <GridSplitter Grid.Column="0" Grid.Row="2" Width="5" Grid.RowSpan="2"/>
+        <usercontrols:TabTextEditor_UC Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Stretch"/>
     </Grid>
 </Window>
