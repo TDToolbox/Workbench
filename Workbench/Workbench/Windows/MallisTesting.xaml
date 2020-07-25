@@ -21,8 +21,6 @@
         Loaded="MallisTestingWindow_Loaded" 
         MouseMove="Window_MouseMove"
         ResizeMode="CanResizeWithGrip"
-        MinWidth="100"
-        MinHeight="50"
         >
 
     <WindowChrome.WindowChrome>
@@ -36,7 +34,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="128*"/>
             <RowDefinition Height="59*"/>
         </Grid.RowDefinitions>
@@ -55,20 +53,34 @@
             </Grid.RowDefinitions>
             <Button MaxHeight="20" Height="20" x:Name="TitleButton" Grid.ColumnSpan="2" MouseLeftButtonUp="TitleButton_MouseLeftButtonUp" Background="#222222" BorderBrush="#222222" PreviewMouseLeftButtonDown="TitleButton_PreviewMouseLeftButtonDown"/>
             <Label Content="Workbench" Grid.ColumnSpan="2" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
-            <Button Grid.Column="4" Background="Red" Click="CloseButton_Click" Height="16" BorderThickness="0" BorderBrush="Red"/>
-            <Button Grid.Column="3" Background="Cyan" Click="MaximizeButton_Click" Height="16" BorderThickness="0" BorderBrush="Cyan"/>
-            <Button Grid.Column="2" Background="Cyan" Click="MinimizeButton_Click" Height="16" BorderThickness="0" BorderBrush="Cyan"/>
+            <Button Grid.Column="4" Background="Red" Click="CloseButton_Click" Height="16" BorderThickness="0" BorderBrush="Red" Margin="5,0,0,2">
+                <Label Content="X" Margin="-10" IsHitTestVisible="False"/>
+            </Button>
+            <Button Grid.Column="3" Click="MaximizeButton_Click" Height="16" BorderThickness="0"  Margin="5,0,0,2">
+                <Rectangle Margin="-2" Width="10" Height="10" Stroke="Black" StrokeThickness="1" IsHitTestVisible="False"/>
+            </Button>
+            <Button Grid.Column="2" Click="MinimizeButton_Click" Height="16" BorderThickness="0" Margin="5,0,0,2">
+                <Line X1="0" Y1="1" X2="10" Y2="1" Stroke="Black" StrokeThickness="1" IsHitTestVisible="False"/>
+            </Button>
         </Grid>
         <!-- Menu Bar -->
-        <Menu Width="Auto" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Name="FileEditMenu" Height="25">
-            <MenuItem Header="File" Height="25">
-                <MenuItem x:Name="AppExit" Header="Exit" HorizontalAlignment="Left" Width="auto" Height="25"/>
+        <Menu Width="Auto" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Name="FileEditMenu">
+            <MenuItem Header="File" Height="20">
+                <MenuItem Header="Exit" HorizontalAlignment="Left" Width="auto" Margin="0, -13, 0, 0" Height="20"/>
+                <MenuItem Header="File" Height="20">
+                    <MenuItem Header="Exit" HorizontalAlignment="Left" Width="auto" Margin="0, -13, 0, 0" Height="20"/>
+                    <MenuItem Header="Exit2" HorizontalAlignment="Left" Width="auto" Height="20"/>
+                    <MenuItem Header="Exit3" HorizontalAlignment="Left" Width="auto" Height="20"/>
+                    <MenuItem Header="AndLikeAnExitWithAReallyLongName" HorizontalAlignment="Left" Width="auto" Margin="0, 0, 0, -13" Height="20"/>
+                </MenuItem>
+                <MenuItem Header="Exit3" HorizontalAlignment="Left" Width="auto" Height="20"/>
+                <MenuItem Header="AndLikeAnExitWithAReallyLongName" HorizontalAlignment="Left" Width="auto" Margin="0, 0, 0, -13" Height="20"/>
             </MenuItem>
-            <MenuItem Header="Tools" Height="25">
-                <MenuItem x:Name="Options" Header="Options" HorizontalAlignment="Left" Width="auto" Height="25"/>
+            <MenuItem Header="Tools" Height="20">
+                <MenuItem x:Name="Options" Header="Options" HorizontalAlignment="Left" Width="auto" Margin="0, -13, 0, -13" Height="20"/>
             </MenuItem>
-            <MenuItem Header="Help" Height="25">
-                <MenuItem x:Name="About" Header="About" HorizontalAlignment="Left" Width="auto" Height="25"/>
+            <MenuItem Header="Help" Height="20">
+                <MenuItem x:Name="About" Header="About" HorizontalAlignment="Left" Width="auto" Margin="0, -13, 0, -13" Height="20"/>
             </MenuItem>
         </Menu>
         <!--File Shit grid-->

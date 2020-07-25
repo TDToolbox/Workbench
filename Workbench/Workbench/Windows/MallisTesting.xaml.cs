@@ -2,6 +2,7 @@
 using BTD_Backend.IO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -23,60 +24,16 @@ namespace Workbench
     /// </summary>
     public partial class MallisTesting : Window
     {
-        public static MallisTesting Instance;
+
         public MallisTesting()
         {
             InitializeComponent();
-            Instance = this;
         }
 
 
-        double maxFileViewWid = 100;
         private void MallisTestingWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Thread refresher = new Thread(()=>
-            {
-                while (true)
-                {
-                    try
-                    {
-                        Instance.Dispatcher.Invoke((Action)delegate
-                        {
-                            double fileEditHeight = FileEditMenu.ActualHeight;
-                            //Point winLoc = Instance.PointToScreen(new Point(0, 0));
-                            double availableSpace = MallisTestingWindow.ActualHeight - (fileEditHeight + TitleButton.ActualHeight + 5);
-
-                            Win32.POINT mousePt;
-                            Win32.GetCursorPos(out mousePt);
-                            Point mouseLocRel = FileViewGrid.PointFromScreen(new Point(mousePt.X, mousePt.Y));
-
-                            if (dragging)
-                            {
-                                if (!Win32.GetAsyncKeyState(1))
-                                {
-                                    dragging = false;
-                                }
-                                IntPtr winHandle = new WindowInteropHelper(this).Handle;
-                                Win32.ReleaseCapture();
-                                Win32.SendMessage(winHandle, Win32.WM_NCLBUTTONDOWN, Win32.HTCAPTION, 0);
-                            }
-                            if((Instance.ActualWidth - maxFileViewWid) > 0 && (Instance.ActualWidth - maxFileViewWid) < FileViewGrid.Width)
-                            {
-                                FileViewGrid.Width = Instance.ActualWidth - maxFileViewWid;
-                            }
-                        });
-                    }
-                    catch (Exception)
-                    {
-                        break;
-                    }
-                    
-                    Thread.Sleep(1);
-                }
-            });
-            refresher.Start();
-
-            Zip jet = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
+            /*Zip jet = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
             jet.Password = jet.TryGetPassword();
             //MessageBox.Show("Password: " + jet.Password);
 
@@ -87,7 +44,7 @@ namespace Workbench
             //MessageBox.Show(text);
             LinedTextBox_UC linedTextBox = new LinedTextBox_UC();
             linedTextBox.TextEditor.Text = text;
-            //ContentPanel.Children.Add(linedTextBox);
+            //ContentPanel.Children.Add(linedTextBox);*/
         }
 
         private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
@@ -129,16 +86,11 @@ namespace Workbench
         private void TitleButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             TitleButton.Background = TitleButtonDefault;
-            dragging = false;
         }
-
-        bool dragging;
-        int dx;
-        int dy;
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            Instance.Close();
+            this.Close();
         }
         private void MaximizeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -173,12 +125,9 @@ namespace Workbench
         private void TitleButton_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TitleButton.Background = TitleButtonDown;
-            Point winLoc = Instance.PointToScreen(new Point(0, 0));
-            Win32.POINT mousePoint;
-            Win32.GetCursorPos(out mousePoint);
-            dx = mousePoint.X - (int)winLoc.X;
-            dy = mousePoint.Y - (int)winLoc.Y;
-            dragging = true;
+            IntPtr winHandle = new WindowInteropHelper(this).Handle;
+            Win32.ReleaseCapture();
+            Win32.SendMessage(winHandle, Win32.WM_NCLBUTTONDOWN, Win32.HTCAPTION, 0);
         }
     }
 }
