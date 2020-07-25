@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using BTD_Backend;
@@ -17,6 +19,14 @@ namespace Workbench
             InitializeComponent();
             Log.Instance.MessageLogged += MainWindow_MessageLogged;
             Log.Output("Welcome to BTD Workbench");
+
+            foreach(FileInfo file in new DirectoryInfo(Environment.CurrentDirectory).GetFiles())
+            {
+                if(file.Extension == ".dll")
+                {
+                    Assembly.LoadFrom(file.FullName);
+                }
+            }
 
             UserData.MainProgramName = "BTD Workbench";
             UserData.MainProgramExePath = Environment.CurrentDirectory + "\\Workbench.exe";
