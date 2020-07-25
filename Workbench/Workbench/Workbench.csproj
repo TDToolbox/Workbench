@@ -88,8 +88,8 @@
     <Compile Include="UserControls\LinedTextBox_UC.xaml.cs">
       <DependentUpon>LinedTextBox_UC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\TabTextEditor_UC.xaml.cs">
-      <DependentUpon>TabTextEditor_UC.xaml</DependentUpon>
+    <Compile Include="UserControls\TabEditor_UC.xaml.cs">
+      <DependentUpon>TabEditor_UC.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Welcome_UC.xaml.cs">
       <DependentUpon>Welcome_UC.xaml</DependentUpon>
@@ -108,7 +108,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\TabTextEditor_UC.xaml">
+    <Page Include="UserControls\TabEditor_UC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -173,6 +173,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Welcome 1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BJson.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.3.2.0-ci1779\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.2.0-ci1779\build\MaterialDesignThemes.targets')" />
