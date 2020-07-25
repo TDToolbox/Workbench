@@ -107,7 +107,7 @@ namespace Workbench
             BgThread.AddToQueue(() =>
             {
                 Zip zip = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
-                var list = zip.GetFilesInZip();
+                var list = zip.GetEntries(Zip.EntryType.Directories, "JSON");
 
                 int i = 0;
                 foreach (var item in list)

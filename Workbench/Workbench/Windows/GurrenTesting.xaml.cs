@@ -5,6 +5,7 @@ using BTD_Backend.Persistence;
 using BTD_Backend.NKHook5;
 using BTD_Backend.Save_editing;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
@@ -25,11 +26,12 @@ namespace Workbench
 
             
             Zip zip = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
-            var files = zip.GetFilesInZip("TowerDefinitions");
+            var files = zip.GetEntries(Zip.EntryType.Directories, "TowerDefinitions", SearchOption.AllDirectories);
             foreach (var item in files)
             {
+                string filename = item;
                 TreeViewItem t = new TreeViewItem();
-                t.Header = item;
+                t.Header = filename;
                 FileTreeView.Items.Add(t);
             }
         }
