@@ -39,7 +39,7 @@
         </Grid.RowDefinitions>
 
         <!-- TitleBar -->
-        <usercontrols:TitleBar Grid.ColumnSpan="3"/>
+        <usercontrols:TitleBar x:Name="TitleBar" Grid.ColumnSpan="3" WindowTitle="Workbench"/>
         
         <!-- Menu Bar -->
         <Menu Width="Auto" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Name="FileEditMenu">

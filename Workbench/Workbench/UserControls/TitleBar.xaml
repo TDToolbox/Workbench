@@ -20,7 +20,7 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Button MaxHeight="20" Height="20" x:Name="TitleButton" Grid.ColumnSpan="2" MouseLeftButtonUp="TitleButton_MouseLeftButtonUp" Background="#222222" BorderBrush="#222222" PreviewMouseLeftButtonDown="TitleButton_PreviewMouseLeftButtonDown"/>
-            <Label Content="Workbench" Grid.ColumnSpan="2" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
+            <Label Name="TitleBarLabel" Content="{Binding WindowTitle}" Grid.ColumnSpan="2" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
             <Button Grid.Column="4" Background="Red" Click="CloseButton_Click" Height="16" BorderThickness="0" BorderBrush="Red" Margin="5,0,0,2">
                 <Label Content="X" Margin="-10" IsHitTestVisible="False"/>
             </Button>

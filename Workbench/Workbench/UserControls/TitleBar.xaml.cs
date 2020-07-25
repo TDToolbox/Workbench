@@ -1,5 +1,7 @@
-﻿using System;
+﻿using BTD_Backend;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +27,19 @@ namespace Workbench.UserControls
         {
             InitializeComponent();
         }
+
+        public string WindowTitle
+        {
+            get {
+                return (string)TitleBarLabel.Content;
+            }
+            set {
+                TitleBarLabel.Content = value;
+            }
+        }
+
+
+
 
 
         Brush TitleButtonDown = new SolidColorBrush(Color.FromArgb(0xFF, 0x44, 0x44, 0x44));
