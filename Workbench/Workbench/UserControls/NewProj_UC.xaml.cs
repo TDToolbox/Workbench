@@ -24,10 +24,11 @@ namespace Workbench.UserControls
     /// </summary>
     public partial class NewProj_UC : UserControl
     {
+        public GameType Game { get; set; } = GameType.None;
+        public string ModType { get; set; }
         public NewProj_UC()
         {
             InitializeComponent();
-            
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -53,9 +54,13 @@ namespace Workbench.UserControls
 
         private void GameTypes_ListB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ModType = "";
+            ResetButtonColors();
+
             var selected = GameTypes_ListB.SelectedItem;
             if (selected == BTD5_LBItem)
             {
+                Game = GameType.BTD5;
                 JetMod_LBItem.IsEnabled = true;
                 SaveMod_LBItem.IsEnabled = true;
                 NKHMod_LBItem.IsEnabled = true;
@@ -64,6 +69,7 @@ namespace Workbench.UserControls
             }
             if (selected == BTDB_LBItem)
             {
+                Game = GameType.BTDB;
                 NKHMod_LBItem.IsEnabled = false;
                 SaveMod_LBItem.IsEnabled = true;
                 ProjPass_TextBox.IsEnabled = true;
@@ -72,6 +78,7 @@ namespace Workbench.UserControls
             }
             if (selected == BMC_LBItem)
             {
+                Game = GameType.BMC;
                 JetMod_LBItem.IsEnabled = true;
                 SaveMod_LBItem.IsEnabled = false;
                 NKHMod_LBItem.IsEnabled = false;
@@ -117,20 +124,42 @@ namespace Workbench.UserControls
             ProjPass_TextBox.Text = pass;            
         }
 
+        private void ResetButtonColors(byte alpha = 255)
+        {
+            var color = new SolidColorBrush(Color.FromArgb(alpha, 255, 152, 0));
+            JetMod_LBItem.Background = color;
+            JetMod_LBItem.BorderBrush = color;
+            SaveMod_LBItem.Background = color;
+            SaveMod_LBItem.BorderBrush = color;
+            NKHMod_LBItem.Background = color;
+            NKHMod_LBItem.BorderBrush = color;
+        }
+
         private void JetMod_LBItem_Click(object sender, RoutedEventArgs e)
         {
-            
+            ResetButtonColors(200);
+            ModType = "Jet";
+            JetMod_LBItem.Background = Brushes.LimeGreen;
+            JetMod_LBItem.BorderBrush = Brushes.Black;
         }
 
         private void SaveMod_LBItem_Click(object sender, RoutedEventArgs e)
         {
+            ResetButtonColors(200);
+            ModType = "Save";
             ProjPass_TextBox.Text = "";
             ProjPass_TextBox.IsEnabled = false;
+
+            SaveMod_LBItem.Background = Brushes.LimeGreen;
+            SaveMod_LBItem.BorderBrush = Brushes.Black;
         }
 
         private void NKHMod_LBItem_Click(object sender, RoutedEventArgs e)
         {
-            
+            ResetButtonColors(200);
+            ModType = "NKH";
+            NKHMod_LBItem.Background = Brushes.LimeGreen;
+            NKHMod_LBItem.BorderBrush = Brushes.Black;
         }
 
         private void Back_Button_Click(object sender, RoutedEventArgs e)
@@ -143,8 +172,29 @@ namespace Workbench.UserControls
 
         private void Create_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (Game == GameType.None)
+            {
+                MessageBox.Show("Please select which game you want to create a project for");
+                return;
+            }
+
+            if (String.IsNullOrEmpty(ModType))
+            {
+                MessageBox.Show("Please select which type of mod you want to make");
+                return;
+            }
+
             if (ProjName_TextBox.Text.Length <= 0)
+            {
                 MessageBox.Show("You need to enter a project name before you can continue");
+                return;
+            }
+
+            if (ProjPass_TextBox.Text.Length <= 0 && Game == GameType.BTDB)
+            {
+                MessageBox.Show("You need to enter a password for BTD Battles jet file before you can continue");
+                return;
+            }
         }
 
         private void ProjName_TextBox_TextChanged(object sender, TextChangedEventArgs e)
