@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 using BTD_Backend;
+using BTD_Backend.Persistence;
+using Workbench.UserControls;
 
 namespace Workbench
 {
@@ -16,6 +18,17 @@ namespace Workbench
             Log.Instance.MessageLogged += MainWindow_MessageLogged;
             Log.Output("Welcome to BTD Workbench");
 
+            UserData.MainProgramName = "BTD Workbench";
+            UserData.MainProgramExePath = Environment.CurrentDirectory + "\\Workbench.exe";
+            UserData.MainSettingsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BTD Workbench";
+
+            UserData.LoadUserData();
+            if (UserData.Instance.NewUser)
+            {
+                Welcome_UC welcome = new Welcome_UC();
+                ContentPanel.Children.Add(welcome);
+            }
+            
 #if DEBUG
             Console.WriteLine("DEBUG");
 #else
@@ -53,6 +66,11 @@ namespace Workbench
             Log.Output("Opening Gurren test window");
             GurrenTesting gurren = new GurrenTesting();
             gurren.Show();
+        }
+
+        private void OpenSettings_Button_Click(object sender, RoutedEventArgs e)
+        {
+            UserData.OpenSettingsDir();
         }
     }
 }

@@ -40,22 +40,24 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Button x:Name="OpenSettings_Button" Grid.Column="0" Content="Open Settings Folder" FontSize="12" Click="OpenSettings_Button_Click" />
             <Button x:Name="TestWindow_Button" Grid.Column="1" Content="Open Test Window" FontSize="12" Click="TestWindow_Button_Click" />
-                <Button x:Name="Gurren_Button" Grid.Column="2" Content="Open Gurren Test Window" FontSize="12" Click="GurrenTest_Button_Click"/>
+            <Button x:Name="Gurren_Button" Grid.Column="2" Content="Open Gurren Test Window" FontSize="12" Click="GurrenTest_Button_Click"/>
             <Button x:Name="Mallis_Button" Grid.Column="3" Content="Open Mallis Test Window" FontSize="12" Click="MallisTesting_Button_Click"/>
         </Grid>
 
         <Grid Grid.Row="3" Grid.Column="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="335*"/>
-                <ColumnDefinition Width="41*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
+            <StackPanel x:Name="ContentPanel" Grid.Row="0" Grid.RowSpan="2">
+                    
+            </StackPanel>
             <RichTextBox x:Name="ConsoleLog" Grid.Row="2" VerticalScrollBarVisibility="Auto" Background="#FF7E7E7E" BorderThickness="1" IsReadOnly="True" FontFamily="Consolas" FontSize="16" BorderBrush="#89FFFFFF" Grid.ColumnSpan="2"/>
         </Grid>
     </Grid>
