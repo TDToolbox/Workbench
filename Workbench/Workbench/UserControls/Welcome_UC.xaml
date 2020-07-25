@@ -17,7 +17,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        
+
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -26,13 +26,81 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Image x:Name="WelcomeImage" Grid.Row="0" Grid.Column="1" Source="/Resources/Welcome 2.png"/>
+            <Viewbox Grid.Row="0" Grid.Column="0" VerticalAlignment="Top">
+                <TextBlock Text="BTD Workbench" Foreground="White" FontSize="36"/>
+            </Viewbox>
+            
+            
+            <Grid x:Name="OpenRecent_Grid" Grid.Row="1" Grid.RowSpan="6" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="35"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="1" Text="Open Recent" Foreground="White" FontSize="16"/>
+
+                <TreeView x:Name="MostRecent_Tree" Grid.Column="1" Grid.Row="1" Margin="5" Height="auto">
+                    <TreeViewItem Header="Today">
+                        <Label Content="Test"/>
+                    </TreeViewItem>
+                </TreeView>
+
+                <TreeView x:Name="SecondMostRecent_Tree" Grid.Column="1" Grid.Row="2" Margin="5" Height="auto">
+                    <TreeViewItem Header="Yesterday">
+                        <Label Content="Test"/>
+                    </TreeViewItem>
+                </TreeView>
+
+                <TreeView x:Name="LeastRecent_Tree" Grid.Column="1" Grid.Row="3" Margin="5" Height="auto">
+                    <TreeViewItem Header="Older">
+                        <Label Content="Test"/>
+                    </TreeViewItem>
+                </TreeView>
+
+                <!-- <Button Grid.Column="1" Grid.Row="1" Margin="5" Height="auto"/> -->
+                <!-- <Button Grid.Column="1" Grid.Row="2" Margin="5" Height="auto"/> -->
+                <!-- <Button Grid.Column="1" Grid.Row="3" Margin="5" Height="auto"/> -->
+            </Grid>
+            <!-- End of Open Recent grid -->
+
+            <Grid x:Name="OpenButtons_Grid" Grid.Row="1" Grid.Column="2" Grid.RowSpan="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Getting Started" Foreground="White" FontSize="16"/>
+
+                <Button x:Name="NewProject_Button" Grid.Column="0" Grid.Row="1" Content="New Project" Height="auto" Margin="0,10,0,1" FontSize="16"/>
+                <Button x:Name="OpenProject_Button" Grid.Column="0" Grid.Row="2" Content="Open Project" Height="auto" Margin="0,10,0,1" FontSize="16"/>
+                <Button x:Name="CloneProject_Button" Grid.Column="0" Grid.Row="3" Content="Clone Github Project" Height="auto" Margin="0,10,0,1" FontSize="16"/>
+                <TextBlock x:Name="ContinueWithoutCode_Button" Grid.Row="4" Text="Continue without code" Margin="0,10,0,48" HorizontalAlignment="Center" MouseUp="ContinueWithoutCode_Button_MouseUp" Foreground="#FF76C7FF" FontSize="14" Cursor="Hand" />
+            </Grid>
+            <!-- End of Open Buttons Grid -->
+
+            <!--<Image x:Name="WelcomeImage" Grid.Row="0" Grid.Column="1" Source="/Resources/Welcome 2.png"/> -->
         </Grid>
     </Grid>
 </UserControl>

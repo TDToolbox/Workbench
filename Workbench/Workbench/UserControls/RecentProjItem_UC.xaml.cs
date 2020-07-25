@@ -16,24 +16,13 @@ using System.Windows.Shapes;
 namespace Workbench.UserControls
 {
     /// <summary>
-    /// Interaction logic for Welcome_UC.xaml
+    /// Interaction logic for RecentProjItem_UC.xaml
     /// </summary>
-    public partial class Welcome_UC : UserControl
+    public partial class RecentProjItem_UC : UserControl
     {
-        public Welcome_UC()
+        public RecentProjItem_UC()
         {
             InitializeComponent();
-        }
-
-        private void StartButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow main = new MainWindow();
-            main.Show();
-        }
-
-        private void ContinueWithoutCode_Button_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            MessageBox.Show("assad");
         }
     }
 }

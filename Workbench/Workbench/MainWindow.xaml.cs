@@ -34,13 +34,12 @@ namespace Workbench
 
         private void MainWindow_MessageLogged(object sender, Log.LogEvents e)
         {
-            ConsoleLog.Dispatcher.BeginInvoke((Action)(() =>
+            Console.WriteLine(e.Message);
+            /*ConsoleLog.Dispatcher.BeginInvoke((Action)(() =>
             {
                 ConsoleLog.AppendText(e.Message);
-                ConsoleLog.ScrollToEnd();
-
-                Console.WriteLine(e.Message);
-            }));
+                ConsoleLog.ScrollToEnd();                
+            }));*/
         }
 
         private void TestWindow_Button_Click(object sender, RoutedEventArgs e)
@@ -76,27 +75,9 @@ namespace Workbench
 
             UserData.LoadUserData();
 
-            if (UserData.Instance.NewUser)
-            {
-                Welcome_UC welcome = new Welcome_UC();
-                ContentPanel.Children.Add(welcome);
-            }
-            else
-            {
-
-                Zip jet = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
-                jet.Password = jet.TryGetPassword();
-
-                var entries = jet.GetEntries(Zip.EntryType.Files, "TowerDefinitions");
-                var text = jet.ReadFileInZip(entries[0]);
-                
-
-                linedTextBox = new LinedTextBox_UC();
-                linedTextBox.Height = ContentPanel.ActualHeight;
-
-                linedTextBox.TextEditor.Text = text;
-                ContentPanel.Children.Add(linedTextBox);
-            }
+            Welcome_UC welcome = new Welcome_UC();
+            welcome.Height = ContentPanel.ActualHeight;
+            ContentPanel.Children.Add(welcome);
         }
 
         private void ContentPanel_SizeChanged(object sender, SizeChangedEventArgs e)

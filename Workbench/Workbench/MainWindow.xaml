@@ -13,7 +13,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Workbench"
         mc:Ignorable="d"
-        Title="BTD Workbench" Height="450" Width="800" Margin="1" MinHeight="300" MinWidth="650" Loaded="Window_Loaded">
+        Title="BTD Workbench" Height="650" Width="800" WindowStartupLocation="CenterScreen" Margin="1" MinHeight="300" MinWidth="650" Loaded="Window_Loaded">
 
     <!-- This is what a comment looks like-->
     <Grid>
@@ -55,9 +55,12 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackPanel x:Name="ContentPanel" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Stretch" SizeChanged="ContentPanel_SizeChanged"/>
             
+            <StackPanel x:Name="ContentPanel" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Stretch" SizeChanged="ContentPanel_SizeChanged"/>
+            
+            <!--
             <RichTextBox x:Name="ConsoleLog" Grid.Row="2" VerticalScrollBarVisibility="Auto" Background="#FF7E7E7E" BorderThickness="1" IsReadOnly="True" FontFamily="Consolas" FontSize="16" BorderBrush="#89FFFFFF" Grid.ColumnSpan="2"/>
+            -->
         </Grid>
     </Grid>
 </Window>
