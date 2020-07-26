@@ -31,7 +31,8 @@ namespace Workbench.UserControls
         public string Text { get; set; }
         public string FilePath { get; set; }
         public string TabName { get; set; }
-        
+        public TabItem Tab_Owner { get; set; }
+
         public LinedTextBox_UC()
         {
             InitializeComponent();

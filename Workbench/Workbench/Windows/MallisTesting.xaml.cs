@@ -176,10 +176,11 @@ namespace Workbench
 
             foreach (var item in LinedTextBox_UC.OpenedFiles)
             {
-                Log.Output("item.Filep = " + item.FilePath);
-                Log.Output("ifilepath = " + filepath);
                 if (item.FilePath == filepath)
+                {
+                    TabTextEditor_UC.TabController.SelectedItem = item.Tab_Owner;
                     return;
+                }
             }
 
             if (String.IsNullOrEmpty(jet.Password))
@@ -189,15 +190,18 @@ namespace Workbench
             }
 
             string[] nameSplit = filepath.Split('/');
+            TabItem tab = new TabItem();
+            tab.Header = nameSplit[nameSplit.Length - 1];
+
+
             LinedTextBox_UC textbox = new LinedTextBox_UC()
             {
                 Text = jet.ReadFileInZip(filepath),
                 FilePath = filepath,
-                TabName = nameSplit[nameSplit.Length - 1]
+                TabName = tab.Header.ToString(),
+                Tab_Owner = tab
             };
 
-            TabItem tab = new TabItem();
-            tab.Header = textbox.TabName;
             tab.Content = textbox;
 
             TabTextEditor_UC.TabController.Items.Add(tab);
