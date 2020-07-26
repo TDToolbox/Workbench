@@ -27,18 +27,19 @@ namespace Workbench.UserControls
     /// </summary>
     public partial class LinedTextBox_UC : UserControl
     {
-        public static Stream GenerateStreamFromString(string s)
-        {
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-            writer.Write(s);
-            writer.Flush();
-            stream.Position = 0;
-            return stream;
-        }
+        public static List<LinedTextBox_UC> OpenedFiles;
+        public string Text { get; set; }
+        public string FilePath { get; set; }
+        public string TabName { get; set; }
+        
         public LinedTextBox_UC()
         {
             InitializeComponent();
+
+            if (OpenedFiles == null)
+                OpenedFiles = new List<LinedTextBox_UC>();
+            OpenedFiles.Add(this);
+
             string json = Properties.Resources.BJson;
             using(Stream s = GenerateStreamFromString(json))
             {
@@ -47,6 +48,22 @@ namespace Workbench.UserControls
                     TextEditor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
                 }
             }
+
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            TextEditor.Text = Text;
+        }
+
+        public static Stream GenerateStreamFromString(string s)
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
         }
     }
 }
