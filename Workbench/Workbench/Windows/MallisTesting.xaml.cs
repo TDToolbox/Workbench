@@ -51,7 +51,6 @@ namespace Workbench
                 return;
             }
 
-            Log.Output(headerPath);
             PopulateTreeView(source, headerPath);
         }
 
