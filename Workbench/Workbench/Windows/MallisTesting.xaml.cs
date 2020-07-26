@@ -45,6 +45,7 @@ namespace Workbench
         {
             this.jet = jet;
             BgThread.AddToQueue(() => jet.Password = jet.TryGetPassword());
+            
             var entries = jet.Archive.Entries;
             foreach (var entry in entries)
             {
@@ -56,8 +57,12 @@ namespace Workbench
                 if (split.Length > 2)
                     continue;
 
+                //For some reason IonicZip's .Entries skips any folders in the root directory. Need to 
+                //remove extra part of path so it only shows folders in root directory
+                string itemName = split[split.Length - 2];
+
                 TreeViewItem treeItem = new TreeViewItem();
-                treeItem.Header = item;
+                treeItem.Header = itemName;
                 treeItem.Expanded += TreeViewItem_Expanded;
                 JetView.Items.Add(treeItem);
             }
@@ -68,16 +73,17 @@ namespace Workbench
             TreeViewItem source = (TreeViewItem)e.Source;
             TreeViewItem current = source;
 
-            if (IsFile(e.Source.ToString()))
+            string currentFolder = GetCurrentFolder(source.Header.ToString());
+            
+            if (IsFile(currentFolder))
             {
-                OpenFile(e.Source.ToString());
+                OpenFile(currentFolder);
                 return;
             }
-            
-            string sourceName = source.Header.ToString();
-            string[] sourceSplit = sourceName.Split('/');
-            //MessageBox.Show(sourceName);
 
+            string sourceName = source.Header.ToString();
+            string[] currentFolderSplit = currentFolder.Split('/');
+            
             var entries = jet.Archive.Entries;
             foreach (var entry in entries)
             {
@@ -85,28 +91,25 @@ namespace Workbench
                 item = item.TrimEnd('/');
 
                 //Does this contain this source? If not skip
-                if (!entry.FileName.Contains(sourceName))
+                if (!item.Contains(currentFolder))
                     continue;
 
                 //Is this item the same as the source? If so skip
-                if (item == source.Header.ToString())
+                string itemName = item.Remove(0, item.LastIndexOf('/') + 1);
+                if (itemName == sourceName)
                     continue;
 
                 //Is this item "too deep" in the archive? If so skip
                 string[] itemSplit = item.Split('/');
-                if (itemSplit.Length > sourceSplit.Length + 1)
+                if (itemSplit.Length > currentFolderSplit.Length+1)
                     continue;
 
                 //Does the source already have this item? If so skip
                 if (source.Items.Cast<TreeViewItem>().Any(t => t.Header.ToString() == item))
                     continue;
 
-                //MessageBox.Show(item);
-                TreeViewItem treeItem = new TreeViewItem();                
-                treeItem.Header = item;
-                //treeItem.Header = itemSplit[itemSplit.Length - 1];
-                //treeItem.Expanded += TreeViewItem_Expanded;
-
+                TreeViewItem treeItem = new TreeViewItem();
+                treeItem.Header = itemName;
                 source.Items.Add(treeItem);
             }
 
@@ -146,18 +149,43 @@ namespace Workbench
             source.Items.Add(newItem);*/
         }
 
-        private bool IsFile(string path)
+        private string GetCurrentFolder(string header)
         {
-            string[] split = path.Split(':');
-            string filepath = split[split.Length - 2].Replace(" Items.Count", "");
-            
-            return jet.Archive.EntryFileNames.Contains(filepath);
+            string currentFolder = "";
+            var entries = jet.Archive.Entries;
+            foreach (var entry in entries)
+            {
+                string item = entry.FileName;
+                item = item.TrimEnd('/');
+
+                //Does this contain this source? If not skip
+                if (!entry.FileName.Contains(header))
+                    continue;
+                
+                //Assume the first entry to contain header is our current folder
+                currentFolder = item;
+                break;
+            }
+
+            //For some reason IonicZip's .Entries skips any folders in the root directory. Need to 
+            //remove extra part of path so it only shows folders in root directory
+            if (currentFolder.Split('/').Length - 1 == 1)
+            {
+                string[] split = currentFolder.Split('/');
+                string previousFolder = split[split.Length-2];
+                
+                if (header == previousFolder)
+                    return header;
+            }
+
+            return currentFolder;
         }
+
+        private bool IsFile(string path) => jet.Archive.EntryFileNames.Contains(path);
 
         private void OpenFile(string path)
         {
-            string[] pathSplit = path.Split(':');
-            string filepath = pathSplit[pathSplit.Length - 2].Replace(" Items.Count", "");
+            string filepath = path;
 
             foreach (var item in LinedTextBox_UC.OpenedFiles)
             {
@@ -168,16 +196,9 @@ namespace Workbench
                 }
             }
 
-            if (String.IsNullOrEmpty(jet.Password))
-            {
-                Log.Output("pass is null. please wait");
-                return;
-            }
-
             string[] nameSplit = filepath.Split('/');
             TabItem tab = new TabItem();
             tab.Header = nameSplit[nameSplit.Length - 1];
-
 
             LinedTextBox_UC textbox = new LinedTextBox_UC()
             {
@@ -191,7 +212,6 @@ namespace Workbench
 
             TabTextEditor_UC.TabController.Items.Add(tab);
             TabTextEditor_UC.TabController.SelectedIndex = TabTextEditor_UC.TabController.Items.Count - 1;
-
         }
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

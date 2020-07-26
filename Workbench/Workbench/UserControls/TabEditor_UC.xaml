@@ -23,9 +23,6 @@
             <TabItem Header="EDITOR">
                 <local:LinedTextBox_UC/>
             </TabItem>
-            <TabItem Header="EDITOR">
-                <local:LinedTextBox_UC/>
-            </TabItem>
         </dragablz:TabablzControl>
     </Grid>
 </UserControl>
