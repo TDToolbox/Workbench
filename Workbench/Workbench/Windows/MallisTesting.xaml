@@ -75,8 +75,7 @@
             </GroupBox>
             <!-- Jet view -->
             <GroupBox Grid.Column="0" Grid.Row="1" Header="Jet Files" Height="auto" Margin="0">
-                <TreeView x:Name="JetView" Grid.Column="0" Grid.Row="2">
-                </TreeView>
+                <TreeView x:Name="JetView" Grid.Column="0" Grid.Row="2"/>
             </GroupBox>
         </Grid>
         <!--<Rectangle Name="Splitter" Grid.Column="1" Grid.Row="2" Grid.RowSpan="4" Fill="#222222" MouseDown="Splitter_MouseDown" Cursor="SizeWE"/>-->

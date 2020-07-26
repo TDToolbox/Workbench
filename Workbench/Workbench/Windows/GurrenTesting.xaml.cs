@@ -23,17 +23,6 @@ namespace Workbench
         public GurrenTesting()
         {
             InitializeComponent();
-
-            
-            Zip zip = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
-            var files = zip.GetEntries(Zip.EntryType.Directories, "TowerDefinitions", SearchOption.AllDirectories);
-            foreach (var item in files)
-            {
-                string filename = item;
-                TreeViewItem t = new TreeViewItem();
-                t.Header = filename;
-                FileTreeView.Items.Add(t);
-            }
         }
 
         private void DownloadButton_Click(object sender, RoutedEventArgs e)

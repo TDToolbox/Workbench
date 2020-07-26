@@ -5,19 +5,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
 using Workbench.UserControls;
+using BTD_Backend;
 
 namespace Workbench
 {
@@ -31,7 +23,7 @@ namespace Workbench
         public MallisTesting()
         {
             InitializeComponent();
-            
+            TreeView_Handling.TreeItemExpanded += TreeView_Handling_TreeItemExpanded;
         }
 
         private void MallisTestingWindow_Loaded(object sender, RoutedEventArgs e)
@@ -45,143 +37,32 @@ namespace Workbench
         {
             this.jet = jet;
             BgThread.AddToQueue(() => jet.Password = jet.TryGetPassword());
-            
-            var entries = jet.Archive.Entries;
-            foreach (var entry in entries)
-            {
-                string item = entry.FileName;
 
-                item = item.TrimEnd('/');
-
-                string[] split = item.Split('/');
-                if (split.Length > 2)
-                    continue;
-
-                //For some reason IonicZip's .Entries skips any folders in the root directory. Need to 
-                //remove extra part of path so it only shows folders in root directory
-                string itemName = split[split.Length - 2];
-
-                TreeViewItem treeItem = new TreeViewItem();
-                treeItem.Header = itemName;
-                treeItem.Expanded += TreeViewItem_Expanded;
-                JetView.Items.Add(treeItem);
-            }
+            PopulateTreeView();
         }
 
-        private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
+        private void TreeView_Handling_TreeItemExpanded(object sender, TreeView_Handling.TreeView_HandlingEventArgs e)
         {
             TreeViewItem source = (TreeViewItem)e.Source;
-            TreeViewItem current = source;
-
-            string currentFolder = GetCurrentFolder(source.Header.ToString());
-            
-            if (IsFile(currentFolder))
+            string headerPath = TreeView_Handling.GetHeaderPath(source);
+            if (IsFile(headerPath))
             {
-                OpenFile(currentFolder);
+                OpenFile(headerPath);
                 return;
             }
 
-            string sourceName = source.Header.ToString();
-            string[] currentFolderSplit = currentFolder.Split('/');
-            
-            var entries = jet.Archive.Entries;
-            foreach (var entry in entries)
-            {
-                string item = entry.FileName;
-                item = item.TrimEnd('/');
-
-                //Does this contain this source? If not skip
-                if (!item.Contains(currentFolder))
-                    continue;
-
-                //Is this item the same as the source? If so skip
-                string itemName = item.Remove(0, item.LastIndexOf('/') + 1);
-                if (itemName == sourceName)
-                    continue;
-
-                //Is this item "too deep" in the archive? If so skip
-                string[] itemSplit = item.Split('/');
-                if (itemSplit.Length > currentFolderSplit.Length+1)
-                    continue;
-
-                //Does the source already have this item? If so skip
-                if (source.Items.Cast<TreeViewItem>().Any(t => t.Header.ToString() == item))
-                    continue;
-
-                TreeViewItem treeItem = new TreeViewItem();
-                treeItem.Header = itemName;
-                source.Items.Add(treeItem);
-            }
-
-            /*TreeViewItem source = (TreeViewItem)e.Source;
-            TreeViewItem current = source;
-            string path = "";
-            while(current.Parent is TreeViewItem || current.Parent is TreeView)
-            {
-                if(current.Parent is TreeViewItem)
-                {
-                    path = current.Header + path;
-                    current = (TreeViewItem)current.Parent;
-                }
-                else
-                {
-                    path = current.Header + path;
-                    break;
-                }
-            }
-            //path = path.Substring(0, path.Length - 1);
-            Log.Output(path);
-            if(current.Items.Count < 2)
-            {
-                List<string> entries = jet.GetEntries(Zip.EntryType.Directories, path, System.IO.SearchOption.TopDirectoryOnly);
-                entries.ForEach((entry) =>
-                {
-                    TreeViewItem item = new TreeViewItem();
-                    item.Header = entry.Replace(path, "");
-                    current.Items.Add(item);
-                });
-            }*/
-            /*TreeViewItem newItem = new TreeViewItem();
-            newItem.Header = "Gameing";
-            Label l = new Label();
-            l.Content = "Gameing";
-            newItem.Items.Add(l);
-            source.Items.Add(newItem);*/
+            Log.Output(headerPath);
+            PopulateTreeView(source, headerPath);
         }
 
-        private string GetCurrentFolder(string header)
-        {
-            string currentFolder = "";
-            var entries = jet.Archive.Entries;
-            foreach (var entry in entries)
-            {
-                string item = entry.FileName;
-                item = item.TrimEnd('/');
+        public bool IsFile(string path) => TreeView_Handling.IsFile(jet, path);
 
-                //Does this contain this source? If not skip
-                if (!entry.FileName.Contains(header))
-                    continue;
-                
-                //Assume the first entry to contain header is our current folder
-                currentFolder = item;
-                break;
-            }
+        public void PopulateTreeView() =>
+            TreeView_Handling.PopulateTreeView(jet, JetView);
 
-            //For some reason IonicZip's .Entries skips any folders in the root directory. Need to 
-            //remove extra part of path so it only shows folders in root directory
-            if (currentFolder.Split('/').Length - 1 == 1)
-            {
-                string[] split = currentFolder.Split('/');
-                string previousFolder = split[split.Length-2];
-                
-                if (header == previousFolder)
-                    return header;
-            }
+        public void PopulateTreeView(TreeViewItem source, string treeItemPath) =>
+            TreeView_Handling.PopulateTreeView(jet, source, treeItemPath);
 
-            return currentFolder;
-        }
-
-        private bool IsFile(string path) => jet.Archive.EntryFileNames.Contains(path);
 
         private void OpenFile(string path)
         {
@@ -196,6 +77,7 @@ namespace Workbench
                 }
             }
 
+            
             string[] nameSplit = filepath.Split('/');
             TabItem tab = new TabItem();
             tab.Header = nameSplit[nameSplit.Length - 1];
@@ -220,6 +102,5 @@ namespace Workbench
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
-
     }
 }
