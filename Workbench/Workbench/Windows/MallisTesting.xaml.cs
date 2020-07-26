@@ -31,14 +31,16 @@ namespace Workbench
         public MallisTesting()
         {
             InitializeComponent();
+            
         }
 
-        public void openJet(string path)
+        private void MallisTestingWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            openJet(new Zip(path));
+            openJet("BTD5.jet");
         }
 
-        
+        public void openJet(string path) => openJet(new Zip(path));
+
         public void openJet(Zip jet)
         {
             this.jet = jet;
@@ -59,23 +61,6 @@ namespace Workbench
                 treeItem.Expanded += TreeViewItem_Expanded;
                 JetView.Items.Add(treeItem);
             }
-        }
-
-        private void MallisTestingWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            /*Zip jet = new Zip(Environment.CurrentDirectory + "\\BTD5.jet");
-            jet.Password = jet.TryGetPassword();
-            //MessageBox.Show("Password: " + jet.Password);
-
-            var entries = jet.GetEntries(Zip.EntryType.Files, "TowerDefinitions");
-            //MessageBox.Show("Got Entries");
-
-            var text = jet.ReadFileInZip(entries[0]);
-            //MessageBox.Show(text);
-            LinedTextBox_UC linedTextBox = new LinedTextBox_UC();
-            linedTextBox.TextEditor.Text = text;
-            //ContentPanel.Children.Add(linedTextBox);*/
-            openJet("BTD5.jet");
         }
 
         private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)

@@ -28,8 +28,8 @@
 
     <Grid x:Name="MainGrid" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="100"/>
-            <ColumnDefinition Width="*" MinWidth="100"/>
+            <ColumnDefinition x:Name="JetFilesGrid" Width="280" MinWidth="200"/>
+            <ColumnDefinition x:Name="EditorGrid" Width="*" MinWidth="100"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -80,7 +80,7 @@
             </GroupBox>
         </Grid>
         <!--<Rectangle Name="Splitter" Grid.Column="1" Grid.Row="2" Grid.RowSpan="4" Fill="#222222" MouseDown="Splitter_MouseDown" Cursor="SizeWE"/>-->
-        <GridSplitter Grid.Column="0" Grid.Row="2" Width="5" Grid.RowSpan="2"/>
-        <usercontrols:TabTextEditor_UC x:Name="TabTextEditor_UC" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Stretch"/>
+        <GridSplitter x:Name="GridSplitter" Grid.Column="0" Grid.Row="2" Width="5" Grid.RowSpan="2"/>
+        <usercontrols:TabTextEditor_UC x:Name="TabTextEditor_UC" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Stretch" Margin="0,0,0,0"/>
     </Grid>
 </Window>
