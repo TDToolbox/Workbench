@@ -36,9 +36,8 @@ namespace Workbench
         public void openJet(Zip jet)
         {
             this.jet = jet;
-            BgThread.AddToQueue(() => jet.Password = jet.TryGetPassword());
-
-            PopulateTreeView();
+            //BgThread.AddToQueue(() => jet.Password = jet.TryGetPassword());
+            PopulateTreeView(SearchOption.TopDirectoryOnly);
         }
 
         private void TreeView_Handling_TreeItemExpanded(object sender, TreeView_Handling.TreeView_HandlingEventArgs e)
@@ -51,16 +50,16 @@ namespace Workbench
                 return;
             }
 
-            PopulateTreeView(source, headerPath);
+            PopulateTreeView(source, SearchOption.TopDirectoryOnly, headerPath);
         }
 
         public bool IsFile(string path) => TreeView_Handling.IsFile(jet, path);
 
-        public void PopulateTreeView() =>
-            TreeView_Handling.PopulateTreeView(jet, JetView);
+        public void PopulateTreeView(SearchOption searchOption) =>
+            TreeView_Handling.PopulateTreeView(jet, JetView, searchOption);
 
-        public void PopulateTreeView(TreeViewItem source, string treeItemPath) =>
-            TreeView_Handling.PopulateTreeView(jet, source, treeItemPath);
+        public void PopulateTreeView(TreeViewItem source, SearchOption searchOption, string treeItemPath) =>
+            TreeView_Handling.PopulateTreeView(jet, source, searchOption, treeItemPath);
 
 
         private void OpenFile(string path)

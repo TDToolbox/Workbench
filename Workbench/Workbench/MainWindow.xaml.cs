@@ -83,6 +83,12 @@ namespace Workbench
 
             UserData.LoadUserData();
 
+            foreach (var item in UserData.Instance.PreviousProjects)
+            {
+                if (File.Exists(item))
+                    Log.Output(item);
+            }
+
             Welcome_UC welcome = new Welcome_UC();
             welcome.Height = ContentPanel.ActualHeight;
             ContentPanel.Children.Add(welcome);
