@@ -59,7 +59,7 @@
                 <TreeView x:Name="MostRecent_Tree" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3"  Margin="5" Height="auto">
                     <TreeViewItem Header="Today" x:Name="Today">
                         <Viewbox>
-                            <local:RecentProjItem_UC Width="400"/>
+                            <local:RecentProjItem_UC Width="350"/>
                         </Viewbox>
                     </TreeViewItem>
                     <TreeViewItem Header="Yesterday">
