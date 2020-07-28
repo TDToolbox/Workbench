@@ -1,8 +1,11 @@
 ﻿using BTD_Backend.Game;
 using BTD_Backend.Game.Jet_Files;
 using BTD_Backend.IO;
+using BTD_Backend.Persistence;
 using Ionic.Zip;
+using MaterialDesignColors;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -272,7 +275,12 @@ namespace Workbench.UserControls
             if (File.Exists(projPath))
                 File.Delete(projPath);
 
+            /* Create project metadata */
+            ProjectData metaData = new ProjectData(ProjName_TextBox.Text, projPath, DateTime.Now, Projects.Contains(ProjectTypes.Jet_Mod), Projects.Contains(ProjectTypes.Save_Mod), Projects.Contains(ProjectTypes.NKH_Mod), Game.ToString(), null);
+            string metaJson = JsonConvert.SerializeObject(metaData);
+
             ZipFile proj = new ZipFile(projPath);
+            proj.AddEntry("meta.json", metaJson);
             foreach (var item in Projects)
             {
                 proj.AddDirectoryByName(item.ToString());
