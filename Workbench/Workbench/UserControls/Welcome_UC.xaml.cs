@@ -1,4 +1,5 @@
-﻿using BTD_Backend.Persistence;
+﻿using BTD_Backend.IO;
+using BTD_Backend.Persistence;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -75,20 +76,27 @@ namespace Workbench.UserControls
 
                 /*System.Windows.MessageBox.Show(fileDialog.FileName);
                 ProjectData projectData = new ProjectData(fileDialog.FileName);*/
-                var proj = ProjectData.LoadProject(fileDialog.FileName);
+                Wbp proj = new Wbp(fileDialog.FileName);
+                ProjectData data = proj.getProjectData();
+                data.WBP_Path = fileDialog.FileName;
+                data.LastOpened = DateTime.Now;
+                proj.setProjectData(data);
+                /*var proj = ProjectData.LoadProject(fileDialog.FileName);
                 proj.WBP_Path = fileDialog.FileName;
-                proj.SaveProject();
+                proj.SaveProject();*/
                 //projectData.WBP_Path = fileDialog.FileName;
 
 
 
+                bool safe;
+                MallisTesting mallis = new MallisTesting(fileDialog.FileName, out safe);
 
-                MallisTesting mallis = new MallisTesting();
-                mallis.Wbp_Path = fileDialog.FileName;
-
-                mallis.WindowState = WindowState.Maximized;
-                mallis.Show();
-                MainWindow.Instance.Close();
+                if (safe)
+                {
+                    mallis.WindowState = WindowState.Maximized;
+                    mallis.Show();
+                    MainWindow.Instance.Close();
+                }
             }
         }
     }

@@ -288,12 +288,15 @@ namespace Workbench.UserControls
 
             proj.Save();
 
-            MallisTesting mallis = new MallisTesting();
-            mallis.Wbp_Path = ProjPass_TextBox.Text;
+            bool safe;
+            MallisTesting mallis = new MallisTesting(metaData.WBP_Path, out safe);
 
-            mallis.WindowState = WindowState.Maximized;
-            mallis.Show();
-            MainWindow.Instance.Close();
+            if (safe)
+            {
+                mallis.WindowState = WindowState.Maximized;
+                mallis.Show();
+                MainWindow.Instance.Close();
+            }
         }
     }
 }
