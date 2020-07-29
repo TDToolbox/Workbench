@@ -83,11 +83,17 @@ namespace Workbench
 
         public bool IsFile(string path) => TreeView_Handling.IsFile(this.jet, path);
 
-        public void PopulateTreeView(SearchOption searchOption) =>
-            TreeView_Handling.PopulateTreeView(this.jet, JetView, searchOption);
+        public void PopulateTreeView(SearchOption searchOption)
+        {
+            if(this.jet != null)
+                TreeView_Handling.PopulateTreeView(this.jet, JetView, searchOption);
+        }
 
-        public void PopulateTreeView(TreeViewItem source, SearchOption searchOption, string treeItemPath) =>
-            TreeView_Handling.PopulateTreeView(this.jet, source, searchOption, treeItemPath);
+        public void PopulateTreeView(TreeViewItem source, SearchOption searchOption, string treeItemPath)
+        {
+            if (this.jet != null)
+                TreeView_Handling.PopulateTreeView(this.jet, source, searchOption, treeItemPath);
+        }
 
 
         private void OpenFile(string path)
