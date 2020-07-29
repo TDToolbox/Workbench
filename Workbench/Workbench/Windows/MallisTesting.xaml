@@ -73,10 +73,12 @@
                 <TreeView x:Name="ModView">
                 </TreeView>
             </GroupBox>
+            <Image Grid.Row="0" Source="/Resources/electrical-service.png" Width="25" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0"/>
             <!-- Jet view -->
             <GroupBox Grid.Column="0" Grid.Row="1" Header="Jet Files" Height="auto" Margin="0">
                 <TreeView x:Name="JetView" Grid.Column="0" Grid.Row="2"/>
             </GroupBox>
+            <Image Grid.Row="1" Source="/Resources/package.png" Width="25" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0"/>
         </Grid>
         <!--<Rectangle Name="Splitter" Grid.Column="1" Grid.Row="2" Grid.RowSpan="4" Fill="#222222" MouseDown="Splitter_MouseDown" Cursor="SizeWE"/>-->
         <GridSplitter x:Name="GridSplitter" Grid.Column="0" Grid.Row="2" Width="5" Grid.RowSpan="2"/>

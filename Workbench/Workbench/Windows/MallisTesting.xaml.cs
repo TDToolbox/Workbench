@@ -38,8 +38,12 @@ namespace Workbench
                 data = project.getProjectData();
                 GameInfo theGame = GameInfo.GetGame((GameType)Enum.Parse(typeof(GameType), data.TargetGame));
                 string jetPath = theGame.GameDir+"/Assets/" + theGame.JetName;
-                if(File.Exists(jetPath))
+                if (File.Exists(jetPath))
+                {
                     jet = new Zip(jetPath);
+                    jet.Password = data.JetPassword;
+                }
+
                 else
                 {
                     Log.Output("Jetfile doesn't exist!");
