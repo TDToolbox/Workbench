@@ -1,35 +1,32 @@
 ﻿using BTD_Backend;
 using BTD_Backend.IO;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Workbench.UserControls;
 using BTD_Backend.Persistence;
 using BTD_Backend.Game;
-using System.Security.Cryptography;
+using System.Windows.Forms;
 
 namespace Workbench
 {
     /// <summary>
-    /// Interaction logic for MallisTesting.xaml
+    /// Interaction logic for JetEditor.xaml
     /// </summary>
-    public partial class MallisTesting : Window
+    public partial class JetEditor : Window
     {
         private Zip jet;
         ProjectData data;
 
-        public MallisTesting()
+        public JetEditor()
         {
             InitializeComponent();
             TreeView_Handling.TreeItemExpanded += TreeView_Handling_TreeItemExpanded;
         }
 
-        public MallisTesting(string projectPath, out bool safe) : this()
+        public JetEditor(string projectPath, out bool safe) : this()
         {
             safe = true;
             try
@@ -104,13 +101,14 @@ namespace Workbench
         {
             string filepath = path;
 
+            //Get the parent tab item for the tab item at this path
             foreach (var item in LinedTextBox_UC.OpenedFiles)
             {
-                if (item.FilePath == filepath)
-                {
-                    TabTextEditor_UC.TabController.SelectedItem = item.Tab_Owner;
-                    return;
-                }
+                if (item.FilePath != filepath)
+                    continue;
+                
+                TabTextEditor_UC.TabController.SelectedItem = item.Tab_Owner;
+                return;
             }
 
             
@@ -137,6 +135,53 @@ namespace Workbench
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
+        }
+
+        private void File_New_Button_Click(object sender, RoutedEventArgs e)
+        {
+            NewProj_UC newProj = new NewProj_UC();
+            newProj.Height = MainWindow.Instance.ContentPanel.ActualHeight;
+            MainWindow.Instance = new MainWindow();
+            MainWindow.Instance.Show();
+            MainWindow.Instance.ContentPanel.Children.Add(newProj);
+        }
+
+        private void File_Open_Button_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.InitialDirectory = Environment.CurrentDirectory;
+            fileDialog.Title = "Select project path";
+            fileDialog.CheckFileExists = true;
+            fileDialog.CheckPathExists = true;
+            fileDialog.Multiselect = false;
+            fileDialog.DefaultExt = "wbp";
+            fileDialog.Filter = "Workbench projects (*.wbp)|*.wbp";
+
+            var result = fileDialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                if (!UserData.Instance.PreviousProjects.Contains(fileDialog.FileName))
+                {
+                    UserData.Instance.PreviousProjects.Add(fileDialog.FileName);
+                    UserData.SaveUserData();
+                }
+
+                Wbp proj = new Wbp(fileDialog.FileName);
+                ProjectData data = proj.getProjectData();
+                data.WBP_Path = fileDialog.FileName;
+                data.LastOpened = DateTime.Now;
+                proj.setProjectData(data);
+
+
+                bool safe;
+                JetEditor jetEditor = new JetEditor(fileDialog.FileName, out safe);
+
+                if (safe)
+                {
+                    jetEditor.Show();
+                    MainWindow.Instance.Close();
+                }
+            }
         }
     }
 }

@@ -41,7 +41,7 @@
         </Grid.RowDefinitions>
 
         <!-- TitleBar -->
-        <usercontrols:TitleBar Grid.ColumnSpan="6" WindowTitle="Welcome"/>
+        <usercontrols:TitleBar Grid.ColumnSpan="6" WindowTitle="             Welcome"/>
 
         <!-- <Grid Grid.Row="1" Grid.Column="3">
             <Grid.ColumnDefinitions>
@@ -53,7 +53,6 @@
             <Button x:Name="OpenSettings_Button" Grid.Column="0" Content="Open Settings Folder" FontSize="12" Click="OpenSettings_Button_Click" />
             <Button x:Name="TestWindow_Button" Grid.Column="1" Content="Open Test Window" FontSize="12" Click="TestWindow_Button_Click" />
             <Button x:Name="Gurren_Button" Grid.Column="2" Content="Open Gurren Test Window" FontSize="12" Click="GurrenTest_Button_Click"/>
-            <Button x:Name="Mallis_Button" Grid.Column="3" Content="Open Mallis Test Window" FontSize="12" Click="MallisTesting_Button_Click"/>
         </Grid> -->
 
         <Grid Grid.Row="4" Grid.Column="3">

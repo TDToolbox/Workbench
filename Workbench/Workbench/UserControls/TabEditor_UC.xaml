@@ -16,13 +16,64 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <dragablz:TabablzControl x:Name="TabController">
+        <!--<dragablz:TabablzControl x:Name="TabController">
             <dragablz:TabablzControl.InterTabController>
                 <dragablz:InterTabController />
             </dragablz:TabablzControl.InterTabController>
             <TabItem Header="EDITOR">
                 <local:LinedTextBox_UC/>
             </TabItem>
+        </dragablz:TabablzControl>-->
+
+        <dragablz:TabablzControl x:Name="TabController">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Header, Mode=OneWay}" />
+                        <Button Click="OnTabCloseClick" Width="20" Padding="0" Margin="8 0 0 0" Content="X">
+                            <Button.Style>
+                                <Style TargetType="Button" x:Name="CloseButtonStyle">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsPlaceholder}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentControl>
+                        <ContentControl.Resources>
+                            <ContentControl x:Key="TabContentTemplate">
+                                <StackPanel DataContext="{Binding Content}" Orientation="Vertical">
+                                    <TextBlock Text="{Binding Path=Name}"/>
+                                    <TextBlock Text="{Binding Path=Index}"/>
+                                </StackPanel>
+                            </ContentControl>
+                        </ContentControl.Resources>
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsPlaceholder}" Value="True">
+                                        <Setter Property="Content"
+                                        Value="{x:Null}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsPlaceholder}" Value="False">
+                                        <Setter Property="Content"
+                                        Value="{StaticResource TabContentTemplate}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
         </dragablz:TabablzControl>
     </Grid>
 </UserControl>

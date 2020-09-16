@@ -282,19 +282,17 @@ namespace Workbench.UserControls
             ZipFile proj = new ZipFile(projPath);
             proj.AddEntry("meta.json", metaJson);
             foreach (var item in Projects)
-            {
                 proj.AddDirectoryByName(item.ToString());
-            }
 
             proj.Save();
 
             bool safe;
-            MallisTesting mallis = new MallisTesting(metaData.WBP_Path, out safe);
+            JetEditor jetEditor = new JetEditor(metaData.WBP_Path, out safe);
 
             if (safe)
             {
-                mallis.WindowState = WindowState.Maximized;
-                mallis.Show();
+                jetEditor.WindowState = WindowState.Maximized;
+                jetEditor.Show();
                 MainWindow.Instance.Close();
             }
         }

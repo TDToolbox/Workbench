@@ -25,7 +25,7 @@ namespace Workbench
             InitializeComponent();
             Instance = this;
             //ContPanel = ContentPanel;
-            Log.Instance.MessageLogged += MainWindow_MessageLogged;
+            Log.MessageLogged += MainWindow_MessageLogged;
             
             Log.Output("Welcome to BTD Workbench");
 
@@ -43,6 +43,8 @@ namespace Workbench
         private void MainWindow_MessageLogged(object sender, Log.LogEvents e)
         {
             Console.WriteLine(e.Message);
+            if (e.Output == OutputType.Both || e.Output == OutputType.MsgBox)
+                MessageBox.Show(e.Message);
             /*ConsoleLog.Dispatcher.BeginInvoke((Action)(() =>
             {
                 ConsoleLog.AppendText(e.Message);
@@ -57,12 +59,6 @@ namespace Workbench
             testingWindow.Show();
         }
 
-        private void MallisTesting_Button_Click(object sender, RoutedEventArgs e)
-        {
-            Log.Output("Opening Mallis test window");
-            MallisTesting mallis = new MallisTesting();
-            mallis.Show();
-        }
         private void GurrenTest_Button_Click(object sender, RoutedEventArgs e)
         {
             Log.Output("Opening Gurren test window");

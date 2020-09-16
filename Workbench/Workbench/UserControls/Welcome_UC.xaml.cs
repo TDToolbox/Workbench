@@ -1,21 +1,9 @@
 ﻿using BTD_Backend.IO;
 using BTD_Backend.Persistence;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace Workbench.UserControls
@@ -39,10 +27,11 @@ namespace Workbench.UserControls
 
         private void ContinueWithoutCode_Button_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            MallisTesting mallisTesting = new MallisTesting();
-            mallisTesting.WindowState = WindowState.Maximized;
-            mallisTesting.Show();
+            JetEditor jetEditor = new JetEditor();
+            jetEditor.WindowState = WindowState.Maximized;
+            jetEditor.Show();
             MainWindow.Instance.Close();
+            //MainWindow.Instance.Visibility = Visibility.Hidden;
         }
 
         private void NewProject_Button_Click(object sender, RoutedEventArgs e)
@@ -74,27 +63,19 @@ namespace Workbench.UserControls
                     UserData.SaveUserData();
                 }
 
-                /*System.Windows.MessageBox.Show(fileDialog.FileName);
-                ProjectData projectData = new ProjectData(fileDialog.FileName);*/
                 Wbp proj = new Wbp(fileDialog.FileName);
                 ProjectData data = proj.getProjectData();
                 data.WBP_Path = fileDialog.FileName;
                 data.LastOpened = DateTime.Now;
                 proj.setProjectData(data);
-                /*var proj = ProjectData.LoadProject(fileDialog.FileName);
-                proj.WBP_Path = fileDialog.FileName;
-                proj.SaveProject();*/
-                //projectData.WBP_Path = fileDialog.FileName;
-
 
 
                 bool safe;
-                MallisTesting mallis = new MallisTesting(fileDialog.FileName, out safe);
+                JetEditor jetEditor = new JetEditor(fileDialog.FileName, out safe);
 
                 if (safe)
                 {
-                    mallis.WindowState = WindowState.Maximized;
-                    mallis.Show();
+                    jetEditor.Show();
                     MainWindow.Instance.Close();
                 }
             }

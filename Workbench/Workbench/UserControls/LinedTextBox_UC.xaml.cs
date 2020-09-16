@@ -66,5 +66,10 @@ namespace Workbench.UserControls
             stream.Position = 0;
             return stream;
         }
+
+        private void TextEditor_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
