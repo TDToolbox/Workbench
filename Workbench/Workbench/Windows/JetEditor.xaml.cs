@@ -33,14 +33,30 @@ namespace Workbench
             {
                 Wbp project = new Wbp(projectPath);
                 data = project.getProjectData();
-                GameInfo theGame = GameInfo.GetGame((GameType)Enum.Parse(typeof(GameType), data.TargetGame));
-                string jetPath = theGame.GameDir+"/Assets/" + theGame.JetName;
+
+                GameInfo theGame = GameInfo.GetGame(data.TargetGame);
+                string jetPath = theGame.GameDir;
+
+                if (ProjectData.Instance.TargetGame == GameType.BTD6)
+                {
+                    if (File.Exists(jetPath + "\\" + theGame.JetName))
+                        jetPath += "\\" + theGame.JetName;
+                    else if (File.Exists(jetPath + "\\BloonsTD6_Data\\" + theGame.JetName))
+                        jetPath += "\\BloonsTD6_Data\\" + theGame.JetName;
+                    else if (Directory.Exists(jetPath + "\\Assets") && File.Exists(jetPath + "\\Assets\\" + theGame.JetName))
+                        jetPath += jetPath + "\\Assets\\" + theGame.JetName;
+                }
+                else
+                {
+                    jetPath += "\\Assets\\" + theGame.JetName;
+                }
+
                 if (File.Exists(jetPath))
                 {
                     jet = new Zip(jetPath);
-                    jet.Password = data.JetPassword;
+                    if (!String.IsNullOrEmpty(data.JetPassword))
+                        jet.Password = data.JetPassword;
                 }
-
                 else
                 {
                     Log.Output("Jetfile doesn't exist!");
@@ -48,14 +64,15 @@ namespace Workbench
                     safe = false;
                     throw new Exception("Jetfile doesnt exist so the window cannot open");
                 }
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 Log.Output(ex.Message);
                 Log.Output(ex.StackTrace);
             }
         }
 
-        private void MallisTestingWindow_Loaded(object sender, RoutedEventArgs e)
+        private void JetEditor_Loaded(object sender, RoutedEventArgs e)
         {
             openJet(jet);
         }
@@ -66,6 +83,7 @@ namespace Workbench
         {
             if(this.jet == null)
                 this.jet = jet;
+
             PopulateTreeView(SearchOption.TopDirectoryOnly);
         }
 
@@ -87,13 +105,13 @@ namespace Workbench
         public void PopulateTreeView(SearchOption searchOption)
         {
             if(this.jet != null)
-                TreeView_Handling.PopulateTreeView(this.jet, JetView, searchOption);
+                TreeView_Handling.PopulateTreeView(this.jet, JetView, searchOption, true);
         }
 
         public void PopulateTreeView(TreeViewItem source, SearchOption searchOption, string treeItemPath)
         {
             if (this.jet != null)
-                TreeView_Handling.PopulateTreeView(this.jet, source, searchOption, treeItemPath);
+                TreeView_Handling.PopulateTreeView(this.jet, source, searchOption, treeItemPath, true);
         }
 
 
@@ -121,7 +139,8 @@ namespace Workbench
                 Text = this.jet.ReadFileInZip(filepath),
                 FilePath = filepath,
                 TabName = tab.Header.ToString(),
-                Tab_Owner = tab
+                Tab_Owner = tab,
+                IsFromJet = true
             };
 
             tab.Content = textbox;
@@ -180,6 +199,25 @@ namespace Workbench
                 {
                     jetEditor.Show();
                     MainWindow.Instance.Close();
+                }
+            }
+        }
+
+        private void JetEditor_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) &&
+                (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) && Keyboard.IsKeyDown(Key.S))
+            {
+                LinedTextBox_UC linedTB = new LinedTextBox_UC();
+                linedTB.OnSaveAllOpenedFiles(new LinedTextBox_UC.LinedTBEventArgs());
+            }
+            else if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && Keyboard.IsKeyDown(Key.S))
+            {
+                var selectedTab = TabTextEditor_UC.TabController.SelectedItem;
+                foreach (var tab in LinedTextBox_UC.OpenedFiles)
+                {
+                    if (tab.Tab_Owner == selectedTab)
+                        tab.OnSaveFile(new LinedTextBox_UC.LinedTBEventArgs());
                 }
             }
         }

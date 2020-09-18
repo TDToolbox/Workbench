@@ -69,6 +69,7 @@ namespace Workbench.UserControls
             ResetButtonColors();
 
             var selected = GameTypes_ListB.SelectedItem;
+
             if (selected == BTD5_LBItem)
             {
                 Game = GameType.BTD5;
@@ -98,6 +99,17 @@ namespace Workbench.UserControls
                 
                 ProjPass_TextBox.IsEnabled = false;
                 ProjPass_TextBox.Text = "Q%_{6#Px]]";
+            }
+
+            if (selected == BTD6_LBItem)
+            {
+                Game = GameType.BTD6;
+                JetMod_LBItem.IsEnabled = true;
+                SaveMod_LBItem.IsEnabled = false;
+                NKHMod_LBItem.IsEnabled = false;
+
+                ProjPass_TextBox.IsEnabled = false;
+                ProjPass_TextBox.Text = "";
             }
         }
 
@@ -276,8 +288,8 @@ namespace Workbench.UserControls
                 File.Delete(projPath);
 
             /* Create project metadata */
-            ProjectData metaData = new ProjectData(ProjName_TextBox.Text, projPath, DateTime.Now, Projects.Contains(ProjectTypes.Jet_Mod), Projects.Contains(ProjectTypes.Save_Mod), Projects.Contains(ProjectTypes.NKH_Mod), Game.ToString(), null);
-            string metaJson = JsonConvert.SerializeObject(metaData);
+            ProjectData.Instance = new ProjectData(ProjName_TextBox.Text, projPath, DateTime.Now, Projects.Contains(ProjectTypes.Jet_Mod), Projects.Contains(ProjectTypes.Save_Mod), Projects.Contains(ProjectTypes.NKH_Mod), Game, null);
+            string metaJson = JsonConvert.SerializeObject(ProjectData.Instance);
 
             ZipFile proj = new ZipFile(projPath);
             proj.AddEntry("meta.json", metaJson);
@@ -287,7 +299,7 @@ namespace Workbench.UserControls
             proj.Save();
 
             bool safe;
-            JetEditor jetEditor = new JetEditor(metaData.WBP_Path, out safe);
+            JetEditor jetEditor = new JetEditor(ProjectData.Instance.WBP_Path, out safe);
 
             if (safe)
             {

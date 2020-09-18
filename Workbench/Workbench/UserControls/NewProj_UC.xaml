@@ -30,7 +30,7 @@
                 <ListBoxItem x:Name="BTD5_LBItem" Content="Bloons TD 5" HorizontalAlignment="Center" FontSize="18"/>
                 <ListBoxItem x:Name="BTDB_LBItem" Content="Bloons TD Battles" HorizontalAlignment="Center" FontSize="18"/>
                 <ListBoxItem x:Name="BMC_LBItem" Content="Bloons Monkey City" HorizontalAlignment="Center" FontSize="18"/>
-                <ListBoxItem x:Name="BTD6_LBItem" Content="Bloons TD 6" HorizontalAlignment="Center" FontSize="18" IsEnabled="False"/>
+                <ListBoxItem x:Name="BTD6_LBItem" Content="Bloons TD 6" HorizontalAlignment="Center" FontSize="18"/>
             </ListBox>
 
             <ListBox x:Name="ProjTypes_ListB" Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="150,20,0,0" SelectionMode="Multiple">

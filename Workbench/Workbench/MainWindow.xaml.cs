@@ -43,13 +43,18 @@ namespace Workbench
         private void MainWindow_MessageLogged(object sender, Log.LogEvents e)
         {
             Console.WriteLine(e.Message);
+
             if (e.Output == OutputType.Both || e.Output == OutputType.MsgBox)
-                MessageBox.Show(e.Message);
-            /*ConsoleLog.Dispatcher.BeginInvoke((Action)(() =>
+                MessageBox.Show(e.Message.Replace(">> ", ""));
+
+            if (e.Output == OutputType.Both || e.Output == OutputType.Console)
             {
-                ConsoleLog.AppendText(e.Message);
-                ConsoleLog.ScrollToEnd();                
-            }));*/
+                /*ConsoleLog.Dispatcher.BeginInvoke((Action)(() =>
+                {
+                    ConsoleLog.AppendText(e.Message);
+                    ConsoleLog.ScrollToEnd();
+                }));*/
+            }
         }
 
         private void TestWindow_Button_Click(object sender, RoutedEventArgs e)

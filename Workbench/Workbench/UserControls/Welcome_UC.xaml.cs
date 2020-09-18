@@ -1,4 +1,5 @@
-﻿using BTD_Backend.IO;
+﻿using BTD_Backend;
+using BTD_Backend.IO;
 using BTD_Backend.Persistence;
 using System;
 using System.Windows;
@@ -64,11 +65,10 @@ namespace Workbench.UserControls
                 }
 
                 Wbp proj = new Wbp(fileDialog.FileName);
-                ProjectData data = proj.getProjectData();
-                data.WBP_Path = fileDialog.FileName;
-                data.LastOpened = DateTime.Now;
-                proj.setProjectData(data);
-
+                ProjectData.Instance = proj.getProjectData();
+                ProjectData.Instance.WBP_Path = fileDialog.FileName;
+                ProjectData.Instance.LastOpened = DateTime.Now;                
+                proj.setProjectData(ProjectData.Instance); //update projData to have latest info (like date and path)
 
                 bool safe;
                 JetEditor jetEditor = new JetEditor(fileDialog.FileName, out safe);

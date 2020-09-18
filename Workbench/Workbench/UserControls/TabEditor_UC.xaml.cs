@@ -29,7 +29,7 @@ namespace Workbench.UserControls
         public TabTextEditor_UC()
         {
             InitializeComponent();
-            var tab1 = new TabVM()
+            /*var tab1 = new TabVM()
             {
                 Header = "EDITOR",
                 Content = new ContentVM(new LinedTextBox_UC())
@@ -38,7 +38,7 @@ namespace Workbench.UserControls
             AddNewPlusButton();
 
             TabController.ItemsSource = Tabs;
-            TabController.SelectionChanged += MyTabControl_SelectionChanged;
+            TabController.SelectionChanged += MyTabControl_SelectionChanged;*/
         }
 
         private void MyTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
