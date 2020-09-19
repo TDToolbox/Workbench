@@ -9,6 +9,9 @@ using Workbench.UserControls;
 using BTD_Backend.Persistence;
 using BTD_Backend.Game;
 using System.Windows.Forms;
+using BTD_Backend.Game.Jet_Files;
+using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace Workbench
 {
@@ -18,64 +21,85 @@ namespace Workbench
     public partial class JetEditor : Window
     {
         private Zip jet;
-        ProjectData data;
+
+        public static List<JetEditor> OpenedJetEditors = new List<JetEditor>();
 
         public JetEditor()
         {
             InitializeComponent();
             TreeView_Handling.TreeItemExpanded += TreeView_Handling_TreeItemExpanded;
+
+            OpenedJetEditors.Add(this);
         }
 
-        public JetEditor(string projectPath, out bool safe) : this()
+        public JetEditor(string projectPath) : this()
         {
-            safe = true;
-            try
+            Wbp project = new Wbp(projectPath);
+            GameInfo gameInfo = GameInfo.GetGame(ProjectData.Instance.TargetGame);
+
+            string jetPath = gameInfo.GameDir;
+
+            var game = ProjectData.Instance.TargetGame;
+            if (game == GameType.BMC || game == GameType.BTD5 || game == GameType.BTDB)
             {
-                Wbp project = new Wbp(projectPath);
-                data = project.getProjectData();
-
-                GameInfo theGame = GameInfo.GetGame(data.TargetGame);
-                string jetPath = theGame.GameDir;
-
-                if (ProjectData.Instance.TargetGame == GameType.BTD6)
-                {
-                    if (File.Exists(jetPath + "\\" + theGame.JetName))
-                        jetPath += "\\" + theGame.JetName;
-                    else if (File.Exists(jetPath + "\\BloonsTD6_Data\\" + theGame.JetName))
-                        jetPath += "\\BloonsTD6_Data\\" + theGame.JetName;
-                    else if (Directory.Exists(jetPath + "\\Assets") && File.Exists(jetPath + "\\Assets\\" + theGame.JetName))
-                        jetPath += jetPath + "\\Assets\\" + theGame.JetName;
-                }
-                else
-                {
-                    jetPath += "\\Assets\\" + theGame.JetName;
-                }
-
-                if (File.Exists(jetPath))
-                {
-                    jet = new Zip(jetPath);
-                    if (!String.IsNullOrEmpty(data.JetPassword))
-                        jet.Password = data.JetPassword;
-                }
-                else
-                {
-                    Log.Output("Jetfile doesn't exist!");
-                    Log.Output("JetPath: "+jetPath);
-                    safe = false;
-                    throw new Exception("Jetfile doesnt exist so the window cannot open");
-                }
+                jetPath += "\\Assets\\" + gameInfo.JetName;
             }
-            catch(Exception ex)
+            else if (game == GameType.BTD6)
             {
-                Log.Output(ex.Message);
-                Log.Output(ex.StackTrace);
+                if (File.Exists(jetPath + "\\" + gameInfo.JetName))
+                    jetPath += "\\" + gameInfo.JetName;
             }
+
+            if (!File.Exists(jetPath))
+            {
+                Log.Output("This Jetfile doesn't exist! : " + jetPath);
+                throw new Exception("Jetfile: \"" + jetPath + "\" doesnt exist so the window cannot open");
+            }
+
+            jet = new Zip(jetPath);
+            if (!String.IsNullOrEmpty(ProjectData.Instance.JetPassword))
+                jet.Password = ProjectData.Instance.JetPassword;
+
+            Show();
         }
 
         private void JetEditor_Loaded(object sender, RoutedEventArgs e)
         {
             openJet(jet);
+
+            PopulateModFiles();
         }
+
+        private void PopulateModFiles()
+        {
+            Zip wbpZip = new Zip(ProjectData.Instance.WBP_Path);
+
+            /*if (!wbpZip.Archive.ContainsEntry("Jet_Mod"))
+            {
+                Log.Output("Jet_Mod folder does not exist", OutputType.Both);
+                return;
+            }*/
+
+            var files = wbpZip.GetEntries(Zip.EntryType.All, SearchOption.AllDirectories, "/Jet_Mod");
+            var modFiles = new List<string>();
+            foreach (var file in files)
+            {
+                if (!file.StartsWith("Jet_Mod"))
+                    continue;
+
+                if (modFiles.Contains(file))
+                    continue;
+
+                modFiles.Add(file);
+                /*if (file.Replace("/", "") == "Jet_Mod")
+                    continue;
+                Log.Output(file);*/
+            }
+
+            //PopulateTreeView(SearchOption.TopDirectoryOnly, wbpZip, ModFiles_TreeView);
+        }
+
+        
 
         public void openJet(string path) => openJet(new Zip(path));
 
@@ -102,10 +126,18 @@ namespace Workbench
 
         public bool IsFile(string path) => TreeView_Handling.IsFile(this.jet, path);
 
-        public void PopulateTreeView(SearchOption searchOption)
+        /*public void PopulateTreeView(SearchOption searchOption)
         {
             if(this.jet != null)
                 TreeView_Handling.PopulateTreeView(this.jet, JetView, searchOption, true);
+        }*/
+
+        public void PopulateTreeView(SearchOption searchOption) => PopulateTreeView(searchOption, this.jet, JetView);
+
+        public void PopulateTreeView(SearchOption searchOption, Zip zip, System.Windows.Controls.TreeView tree)
+        {
+            if (this.jet != null)
+                TreeView_Handling.PopulateTreeView(zip, tree, searchOption, true);
         }
 
         public void PopulateTreeView(TreeViewItem source, SearchOption searchOption, string treeItemPath)
@@ -114,40 +146,44 @@ namespace Workbench
                 TreeView_Handling.PopulateTreeView(this.jet, source, searchOption, treeItemPath, true);
         }
 
-
-        private void OpenFile(string path)
+        public void OpenFile(string editorText, string tabName, string filepath = "")
         {
-            string filepath = path;
-
-            //Get the parent tab item for the tab item at this path
-            foreach (var item in LinedTextBox_UC.OpenedFiles)
-            {
-                if (item.FilePath != filepath)
-                    continue;
-                
-                TabTextEditor_UC.TabController.SelectedItem = item.Tab_Owner;
-                return;
-            }
-
-            
-            string[] nameSplit = filepath.Split('/');
             TabItem tab = new TabItem();
-            tab.Header = nameSplit[nameSplit.Length - 1];
+            tab.Header = tabName;
 
             LinedTextBox_UC textbox = new LinedTextBox_UC()
             {
-                Text = this.jet.ReadFileInZip(filepath),
+                Text = editorText,
                 FilePath = filepath,
                 TabName = tab.Header.ToString(),
                 Tab_Owner = tab,
                 IsFromJet = true
             };
 
+            if (tabName.ToLower().Contains("analizer"))
+                textbox.IsAnalyzerResult = true;
+
             tab.Content = textbox;
 
             TabTextEditor_UC.TabController.Items.Add(tab);
             TabTextEditor_UC.TabController.SelectedIndex = TabTextEditor_UC.TabController.Items.Count - 1;
         }
+
+        private void OpenFile(string path)
+        {
+            //Get the parent tab item for the tab item at this path
+            foreach (var item in LinedTextBox_UC.OpenedFiles)
+            {
+                if (item.FilePath != path)
+                    continue;
+                
+                TabTextEditor_UC.TabController.SelectedItem = item.Tab_Owner;
+                return;
+            }
+
+            OpenFile(jet.ReadFileInZip(path), "", path);
+        }
+
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -161,6 +197,7 @@ namespace Workbench
             NewProj_UC newProj = new NewProj_UC();
             newProj.Height = MainWindow.Instance.ContentPanel.ActualHeight;
             MainWindow.Instance = new MainWindow();
+            MainWindow.Instance.WindowTitle = "       New Project";
             MainWindow.Instance.Show();
             MainWindow.Instance.ContentPanel.Children.Add(newProj);
         }
@@ -191,15 +228,8 @@ namespace Workbench
                 data.LastOpened = DateTime.Now;
                 proj.setProjectData(data);
 
-
-                bool safe;
-                JetEditor jetEditor = new JetEditor(fileDialog.FileName, out safe);
-
-                if (safe)
-                {
-                    jetEditor.Show();
-                    MainWindow.Instance.Close();
-                }
+                JetEditor jetEditor = new JetEditor(fileDialog.FileName);
+                MainWindow.Instance.Close();
             }
         }
 
@@ -220,6 +250,22 @@ namespace Workbench
                         tab.OnSaveFile(new LinedTextBox_UC.LinedTBEventArgs());
                 }
             }
+        }
+
+        private void Analysis_Click(object sender, RoutedEventArgs e)
+        {
+            var analysis = new Analysis_UC();
+            analysis.Height = MainWindow.Instance.ContentPanel.ActualHeight;
+
+            MainWindow.Instance = new MainWindow();
+            MainWindow.Instance.WindowTitle = "              Analysis";
+            MainWindow.Instance.Show();
+            MainWindow.Instance.ContentPanel.Children.Add(analysis);
+        }
+
+        private void Editor_Closed(object sender, EventArgs e)
+        {
+            OpenedJetEditors.Remove(this);
         }
     }
 }

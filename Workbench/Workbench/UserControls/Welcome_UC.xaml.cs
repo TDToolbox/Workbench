@@ -32,7 +32,6 @@ namespace Workbench.UserControls
             jetEditor.WindowState = WindowState.Maximized;
             jetEditor.Show();
             MainWindow.Instance.Close();
-            //MainWindow.Instance.Visibility = Visibility.Hidden;
         }
 
         private void NewProject_Button_Click(object sender, RoutedEventArgs e)
@@ -70,14 +69,8 @@ namespace Workbench.UserControls
                 ProjectData.Instance.LastOpened = DateTime.Now;                
                 proj.setProjectData(ProjectData.Instance); //update projData to have latest info (like date and path)
 
-                bool safe;
-                JetEditor jetEditor = new JetEditor(fileDialog.FileName, out safe);
-
-                if (safe)
-                {
-                    jetEditor.Show();
-                    MainWindow.Instance.Close();
-                }
+                JetEditor jetEditor = new JetEditor(fileDialog.FileName);
+                MainWindow.Instance.Close();
             }
         }
     }

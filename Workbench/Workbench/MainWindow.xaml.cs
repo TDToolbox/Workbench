@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -17,23 +18,43 @@ namespace Workbench
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static bool firstLoad = true;
         public static MainWindow Instance;
         public static bool debugMode = false;
-        
+        private string windowTitle;
+
+        public string WindowTitle
+        {
+            get { return windowTitle; }
+            set { 
+                windowTitle = value;
+                Title = value.Trim();
+
+                if (TitleBar != null)
+                    TitleBar.WindowTitle = value;
+            }
+        }
+
+
         public MainWindow()
         {
             InitializeComponent();
             Instance = this;
             //ContPanel = ContentPanel;
-            Log.MessageLogged += MainWindow_MessageLogged;
             
-            Log.Output("Welcome to BTD Workbench");
+            if (firstLoad)
+            {
+                Log.MessageLogged += MainWindow_MessageLogged;
+                Log.Output("Welcome to BTD Workbench");
+                WindowTitle = "               Welcome";
+            }
 
 
 
 #if DEBUG
             debugMode = true;
-            Console.WriteLine("DEBUG");
+            if (firstLoad)
+                Console.WriteLine("DEBUG");
 #else
             Console.WriteLine("RELEASE");
             Win32.ShowWindow(Win32.GetConsoleWindow(), (int)Win32.SW_HIDE);
@@ -84,15 +105,32 @@ namespace Workbench
 
             UserData.LoadUserData();
 
+            var existingProjects = new List<string>();
             foreach (var item in UserData.Instance.PreviousProjects)
             {
-                if (File.Exists(item))
-                    Log.Output(item);
+                if (!File.Exists(item))
+                {
+                    Log.Output(item + " no longer exists... Removing from previous projects list.");
+                    continue;
+                }
+
+                existingProjects.Add(item);
             }
 
-            Welcome_UC welcome = new Welcome_UC();
-            welcome.Height = ContentPanel.ActualHeight;
-            ContentPanel.Children.Add(welcome);
+            if (existingProjects.Count != UserData.Instance.PreviousProjects.Count)
+            {
+                UserData.Instance.PreviousProjects = existingProjects;
+                UserData.SaveUserData();
+            }
+
+            if (firstLoad)
+            {
+                Welcome_UC welcome = new Welcome_UC();
+                welcome.Height = ContentPanel.ActualHeight;
+                ContentPanel.Children.Add(welcome);
+            }
+
+            firstLoad = false;
         }
 
         private void ContentPanel_SizeChanged(object sender, SizeChangedEventArgs e)

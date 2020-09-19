@@ -298,15 +298,8 @@ namespace Workbench.UserControls
 
             proj.Save();
 
-            bool safe;
-            JetEditor jetEditor = new JetEditor(ProjectData.Instance.WBP_Path, out safe);
-
-            if (safe)
-            {
-                jetEditor.WindowState = WindowState.Maximized;
-                jetEditor.Show();
-                MainWindow.Instance.Close();
-            }
+            JetEditor jetEditor = new JetEditor(ProjectData.Instance.WBP_Path);
+            MainWindow.Instance.Close();
         }
     }
 }

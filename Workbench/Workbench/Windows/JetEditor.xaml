@@ -20,7 +20,7 @@
         Width="800" 
         Loaded="JetEditor_Loaded"
         ResizeMode="CanResizeWithGrip"
-        WindowState="Maximized" KeyDown="JetEditor_KeyDown"
+        WindowState="Maximized" KeyDown="JetEditor_KeyDown" Closed="Editor_Closed"
         >
 
     <WindowChrome.WindowChrome>
@@ -57,7 +57,7 @@
                 <MenuItem Header="AndLikeAnExitWithAReallyLongName" HorizontalAlignment="Left" Width="auto" Margin="0, 0, 0, -13" Height="20"/>
             </MenuItem>
             <MenuItem Header="Tools" Height="20">
-                <MenuItem x:Name="Options" Header="Options" HorizontalAlignment="Left" Width="auto" Margin="0, -13, 0, -13" Height="20"/>
+                <MenuItem x:Name="Analysis" Header="Analyzer" HorizontalAlignment="Left" Width="auto" Margin="0, -13, 0, -13" Height="20" Click="Analysis_Click"/>
             </MenuItem>
             <MenuItem Header="Help" Height="20">
                 <MenuItem x:Name="About" Header="About" HorizontalAlignment="Left" Width="auto" Margin="0, -13, 0, -13" Height="20"/>
@@ -72,7 +72,7 @@
             <Border Grid.RowSpan="2" BorderThickness="2" BorderBrush="#FF00BCD4"/>
             <!-- Mod view -->
             <GroupBox Grid.Column="0" Grid.Row="0" Header="Mod Files">
-                <TreeView x:Name="ModView">
+                <TreeView x:Name="ModFiles_TreeView">
                 </TreeView>
             </GroupBox>
             <Image Grid.Row="0" Source="/Resources/electrical-service.png" Width="25" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0"/>

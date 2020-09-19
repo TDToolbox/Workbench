@@ -41,7 +41,7 @@
         </Grid.RowDefinitions>
 
         <!-- TitleBar -->
-        <usercontrols:TitleBar Grid.ColumnSpan="6" WindowTitle="             Welcome"/>
+        <usercontrols:TitleBar x:Name="TitleBar" Grid.ColumnSpan="6" WindowTitle="               Welcome"/>
 
         <!-- <Grid Grid.Row="1" Grid.Column="3">
             <Grid.ColumnDefinitions>

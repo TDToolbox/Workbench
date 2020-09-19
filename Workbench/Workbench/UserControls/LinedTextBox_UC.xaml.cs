@@ -44,8 +44,12 @@ namespace Workbench.UserControls
 
             AutosaveTimerStart += LinedTextBox_UC_AutosaveTimerStart;
             AutosaveTimerFinished += LinedTextBox_UC_AutosaveTimerFinished;
-            SaveFile += LinedTextBox_UC_SaveFile;
-            SaveAllOpenedFiles += LinedTextBox_UC_SaveAllOpenedFiles;
+
+            if (!IsAnalyzerResult)
+            {
+                SaveFile += LinedTextBox_UC_SaveFile;
+                SaveAllOpenedFiles += LinedTextBox_UC_SaveAllOpenedFiles;
+            }            
 
             if (OpenedFiles == null)
                 OpenedFiles = new List<LinedTextBox_UC>();
@@ -75,7 +79,7 @@ namespace Workbench.UserControls
         public string TabName { get; set; }
         public TabItem Tab_Owner { get; set; }
         public bool IsFromJet { get; set; } = false;
-
+        public bool IsAnalyzerResult { get; set; } = false;
         #endregion
 
 
@@ -94,7 +98,7 @@ namespace Workbench.UserControls
         {
             Text = TextEditor.Text;
 
-            if (autosaveTimerRunning) //Always keep this at the end of the method
+            if (autosaveTimerRunning || IsAnalyzerResult) //Always keep autosave section at end of method
                 return;
 
             if (fileJustOpened)
