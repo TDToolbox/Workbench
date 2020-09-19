@@ -155,12 +155,12 @@ namespace Workbench
             {
                 Text = editorText,
                 FilePath = filepath,
-                TabName = tab.Header.ToString(),
+                TabName = tabName,
                 Tab_Owner = tab,
                 IsFromJet = true
             };
 
-            if (tabName.ToLower().Contains("analizer"))
+            if (tabName.ToLower().Contains("analyzer"))
                 textbox.IsAnalyzerResult = true;
 
             tab.Content = textbox;
@@ -181,7 +181,8 @@ namespace Workbench
                 return;
             }
 
-            OpenFile(jet.ReadFileInZip(path), "", path);
+            string[] split = path.Split('/');
+            OpenFile(jet.ReadFileInZip(path), split[split.Length-1].Replace("/",""), path);
         }
 
 
